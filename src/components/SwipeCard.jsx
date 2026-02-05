@@ -63,14 +63,21 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                 ref={cardRef}
                 whileTap={{ scale: 1.05 }}
             >
-                <div className={styles.characterContainer}>
-                    <div className={styles.avatarPlaceholder}>
-                        {card.character.slice(0, 1)}
-                    </div>
-                    <h3 className={styles.characterName}>{card.character}</h3>
+                <div className={styles.imageContainer}>
+                    {card.image && (
+                        <img
+                            src={card.image}
+                            alt={card.character}
+                            className={styles.characterImage}
+                            draggable="false"
+                        />
+                    )}
                 </div>
 
-                <p className={styles.cardText}>"{card.text}"</p>
+                <div className={styles.textContainer}>
+                    <h3 className={styles.characterName}>{card.character}</h3>
+                    <p className={styles.cardText}>"{card.text}"</p>
+                </div>
 
                 {/* Overlays for choices */}
                 <motion.div className={styles.choiceTag} style={{ opacity: rightTagOpacity, left: 20, transform: 'rotate(-10deg)', color: '#166534', borderColor: '#166534' }}>

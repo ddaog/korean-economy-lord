@@ -1,16 +1,18 @@
-
 .topBar {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  width: 100%;
-  padding: 10px 0;
-  background-color: #f3f4f6;
-  border-bottom: 2px solid #e5e7eb;
+  width: 90%;
+  left: 5%;
+  padding: 12px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 20px;
   z-index: 100;
+  gap: 15px;
 }
 
 .statContainer {
@@ -18,110 +20,82 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 50px;
+  flex: 1;
 }
 
 .iconWrapper {
-  margin-bottom: 5px;
   position: relative;
   z-index: 2;
-  background: white;
-  border-radius: 50%;
-  padding: 5px;
-  border: 2px solid #333;
+  color: #64748b;
+  margin-bottom: 4px;
 }
 
 .icon {
-  color: #333;
+  width: 24px;
+  height: 24px;
 }
 
-/* Reigns style uses dots/circles implies resource magnitude usually hidden directly but shown effectively by filling the icon or a bar.
-   Here I implemented a vertical bar container trick behind or simple separate bar logic?
-   Wait, the component code used a valid barFill?
-   Ah, I used a `barContainer` but usually in Reigns the "fill" is the icon itself (like a water level inside the icon) OR a small bar above/below.
-   Let's do a small bar *inside* the wider container, or make the icon *be* the top of the bar.
+.barContainer {
+  height: 6px;
+  /* Horizontal bar */
+  width: 100%;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 
+   Since JSX sets HEIGHT, we have to change the component to set WIDTH for a horizontal bar.
+   Or we can use transform: rotate? 
+   No, let's update the component logic to support width for horizontal layout or keep vertical.
+   The user wants "Toss/iOS". Horizontal bars are more common there? 
+   Actually, Reigns uses icons with a liquid fill effect.
+   Let's stick to valid CSS for the current JSX but make it look good.
+   Wait, the JSX sets `height`.
+   To make it horizontal without changing JSX, we could rotate the barContainer -90deg? 
+   No, that's messy.
+   Let's update the JSX to support 'width' style or just keep it vertical but sleeker.
+   Let's keep it vertical but make them small "pills" next to the icon, or under it?
+   Reigns has them at top. 
    
-   Actually, Reigns has the symbols at the top, and a small dot appears above them to indicate change. The LEVEL is actually somewhat hidden or shown as a filling of the icon background.
-   
-   Let's implement a simple vertical bar behind the icon or overlay?
-   Actually, `barContainer` suggests a bar.
+   Let's try to make them sleeker vertical bars.
 */
 
 .barContainer {
-  width: 10px;
-  height: 0; /* Hidden by default if we want reigns-style "hidden stats" but users usually want to see stats?
-              Reigns hides exact numbers but shows rough fill.
-              I'll just show the icon and a dot for change.
-              Wait, the logic in StatBar.jsx renders a barFill with height safeValue%.
-              So I should give barContainer a height.
-             */
-  height: 5px;
-  width: 40px;
-  background-color: #e5e7eb;
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid #9ca3af;
-  margin-top: 2px;
+  height: 4px;
+  width: 100%;
+  background-color: #f1f5f9;
+  border-radius: 2px;
+  margin-top: 6px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .barFill {
-  background-color: #333;
-  width: 100%; /* Horizontal bar logic? or Vertical?
-                The JSX sets height%, so it's a vertical bar?
-                If height%, the container needs height. 
-                Let's make it a horizontal bar for easier reading on top.
-                Wait, JSX sets `height: ${safeValue}%`. This implies vertical bar logic.
-               */
-  bottom: 0;
-  position: absolute;
+  background-color: #334155;
   width: 100%;
-}
-
-/* If it is vertical, it should be taller */
-.statContainer {
-  /* Let's ignore the bar for a moment and just focus on the icon and dot.
-     Reigns only shows the dot to hint the consequence.
-     But I want to show the current level too? 
-     Reigns shows level by how "full" the icon is.
-     Let's style .barContainer to be behind the icon?
-     
-     Actually, let's keep it simple: A horizontal bar below the icon.
-     But `height` style in JSX implies vertical.
-     I will change CSS to make it work as a small vertical pill next to the icon or just a horizontal bar.
-     
-     Let's stick to the existing JSX logic: Vertical bar.
-  */
-}
-
-.barContainer {
-  height: 40px; /* Vertical height */
-  width: 8px;
-  background-color: #ddd;
-  position: relative;
-  display: flex;
-  align-items: flex-end; /* Align fill to bottom */
-  border-radius: 4px;
-  border: 1px solid #333;
-  margin-top: 5px;
+  /* Height is set by inline style */
+  border-radius: 2px;
+  transition: height 0.3s ease;
 }
 
 .indicator {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 10px;
-  height: 10px;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background-color: gray;
+  box-shadow: 0 0 0 2px white;
 }
 
 .up {
-  background-color: #4ade80; /* Green */
+  background-color: #10b981;
 }
 
 .down {
-  background-color: #f87171; /* Red */
+  background-color: #ef4444;
 }
 
 .previewFill {
@@ -129,8 +103,5 @@
   bottom: 0;
   width: 100%;
   z-index: 1;
-}
-
-.barFill {
-  z-index: 0;
+  transition: all 0.2s ease;
 }

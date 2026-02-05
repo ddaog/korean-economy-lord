@@ -37,7 +37,7 @@ const StatItem = ({ icon: Icon, value, label, previewDelta }) => {
                         style={{
                             height: `${previewValue}%`,
                             opacity: 0.5,
-                            backgroundColor: isPositive ? '#4ade80' : '#f87171' // Green or Red
+                            backgroundColor: isPositive ? '#10b981' : '#ef4444' // Emerald or Red
                         }}
                     />
                 )}
