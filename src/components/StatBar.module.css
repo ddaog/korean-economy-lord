@@ -36,48 +36,55 @@
 }
 
 .barContainer {
-  height: 6px;
-  /* Horizontal bar */
+  height: 4px;
+  /* Default small height */
   width: 100%;
-  background-color: #e2e8f0;
-  border-radius: 3px;
+  /* Horizontal layout */
+  background-color: #cbd5e1;
+  /* Darker track for visibility */
+  border-radius: 4px;
+  margin-top: 6px;
   overflow: hidden;
   position: relative;
+  /* Add border for definition */
+  border: 1px solid #94a3b8;
+  display: flex;
+  /* For alignment */
+  align-items: flex-end;
+  /* If vertical, but here width is 100%, so let's check JSX */
 }
 
 /* 
-   Since JSX sets HEIGHT, we have to change the component to set WIDTH for a horizontal bar.
-   Or we can use transform: rotate? 
-   No, let's update the component logic to support width for horizontal layout or keep vertical.
-   The user wants "Toss/iOS". Horizontal bars are more common there? 
-   Actually, Reigns uses icons with a liquid fill effect.
-   Let's stick to valid CSS for the current JSX but make it look good.
-   Wait, the JSX sets `height`.
-   To make it horizontal without changing JSX, we could rotate the barContainer -90deg? 
-   No, that's messy.
-   Let's update the JSX to support 'width' style or just keep it vertical but sleeker.
-   Let's keep it vertical but make them small "pills" next to the icon, or under it?
-   Reigns has them at top. 
-   
-   Let's try to make them sleeker vertical bars.
+   JSX sets height % so it is Vertical. 
+   To make it Horizontal without changing JSX:
+   We can rotate it? No.
+   Let's check StatBar.jsx again. It uses height: safeValue%.
+   So these MUST be vertical bars.
+   To make them visible, we need HEIGHT on the container.
 */
 
 .barContainer {
-  height: 4px;
-  width: 100%;
-  background-color: #f1f5f9;
-  border-radius: 2px;
-  margin-top: 6px;
+  height: 48px;
+  /* Taller vertical bar */
+  width: 10px;
+  /* Thicker vertical bar */
+  background-color: #e2e8f0;
+  border-radius: 5px;
+  margin-top: 5px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #cbd5e1;
   display: flex;
   align-items: flex-end;
+  /* Fill from bottom */
 }
 
 .barFill {
-  background-color: #334155;
+  background-color: #3b82f6;
+  /* Vivid Blue */
   width: 100%;
-  /* Height is set by inline style */
-  border-radius: 2px;
-  transition: height 0.3s ease;
+  border-radius: 0 0 4px 4px;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .indicator {
