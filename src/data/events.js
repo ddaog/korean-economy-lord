@@ -277,5 +277,256 @@ export const EVENTS = [
       diff: { stock: 0, realEstate: 0, approval: -20, liquidity: 0 },
       narrative: "변명이 불난 집에 기름을 부었습니다. 지지율이 수직 낙하합니다."
     }
+  },
+  // --- NEW KOREAN SATIRE EVENTS ---
+  {
+    id: 'real_estate_pf',
+    act: 2,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "부동산 PF 사태가 터졌습니다! 10조 규모 부실채권... 금융기관들이 살려달라고 아우성입니다!",
+    left: {
+      text: "공적자금 투입 (구제금융)",
+      diff: { stock: 5, realEstate: 10, approval: -15, liquidity: -20 },
+      narrative: "'부자 감싸기'라는 비난이 쏟아집니다. 재정 건전성도 악화되었습니다."
+    },
+    right: {
+      text: "시장 원리에 맡긴다 (방치)",
+      diff: { stock: -20, realEstate: -25, approval: 5, liquidity: -10 },
+      narrative: "건설사 파산 도미노... 부동산 시장이 얼어붙었습니다."
+    }
+  },
+  {
+    id: 'kchips_law',
+    act: 1,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "반도체 업계가 'K-칩스법' 지원을 요청합니다. 20조 세제 지원해주시면 미국 따라잡겠습니다!",
+    left: {
+      text: "전폭 지원 (세제 혜택)",
+      diff: { stock: 20, realEstate: 0, approval: 5, liquidity: -15 },
+      narrative: "삼성과 SK가 환호합니다. 하지만 재정 적자가 심각해졌습니다."
+    },
+    right: {
+      text: "선별 지원 (조건부)",
+      diff: { stock: 5, realEstate: 0, approval: -10, liquidity: -5 },
+      narrative: "반도체 업계가 실망했습니다. '중국에 추월당한다'는 경고가 나옵니다."
+    }
+  },
+  {
+    id: 'delivery_fee',
+    act: 1,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "배달앱 수수료 논란! 자영업자들은 '배달앱이 갑질'이라 하고, 배달기사들은 '수수료 올려야 산다'고 합니다.",
+    left: {
+      text: "수수료 상한제 (규제)",
+      diff: { stock: -5, realEstate: 0, approval: 15, liquidity: 0 },
+      narrative: "자영업자들은 환호하지만, 배달앱 주가가 폭락했습니다."
+    },
+    right: {
+      text: "시장 자율에 맡긴다",
+      diff: { stock: 5, realEstate: 0, approval: -15, liquidity: 0 },
+      narrative: "'서민 외면'이라는 비난이 쏟아집니다. 치킨집 사장님들이 울고 있습니다."
+    }
+  },
+  {
+    id: 'seoul_housing_boom',
+    act: 2,
+    character: "강남 부동산 중개인",
+    image: CHAR.CHAEBOL.img,
+    text: "강남 아파트값이 30%나 올랐습니다! 영끌족들이 '지금 안 사면 평생 못 산다'며 대출 받으려 합니다.",
+    left: {
+      text: "DSR 규제 강화 (대출 억제)",
+      diff: { stock: -5, realEstate: -20, approval: -20, liquidity: 5 },
+      narrative: "'영혼까지 끌어모아도 집을 못 산다'는 절규가 들립니다."
+    },
+    right: {
+      text: "대출 규제 완화",
+      diff: { stock: 10, realEstate: 25, approval: 10, liquidity: -15 },
+      narrative: "집값이 폭등합니다. 가계부채 폭탄이 째깍째깍..."
+    }
+  },
+  {
+    id: 'youth_unemployment',
+    act: 2,
+    character: "청년 구직자",
+    image: CHAR.ANT.img,
+    text: "청년 실업률 역대 최고! '공시생 100만 시대'라는데 일자리 좀 만들어주세요!",
+    left: {
+      text: "공공일자리 확대",
+      diff: { stock: -5, realEstate: 0, approval: 15, liquidity: -15 },
+      narrative: "청년들은 환호하지만, '세금 낭비' 비판도 나옵니다."
+    },
+    right: {
+      text: "민간 주도 (규제 완화)",
+      diff: { stock: 10, realEstate: 0, approval: -10, liquidity: 5 },
+      narrative: "'청년을 버렸다'는 비난이 쏟아집니다. 투표율이 걱정되는데요..."
+    }
+  },
+  {
+    id: 'electricity_bill',
+    act: 2,
+    character: CHAR.PRESIDENT.name,
+    image: CHAR.PRESIDENT.img,
+    text: "전기요금 적자가 20조입니다! 한전이 망하기 직전인데, 요금 인상하시겠습니까?",
+    left: {
+      text: "전기요금 대폭 인상",
+      diff: { stock: -10, realEstate: 0, approval: -25, liquidity: 10 },
+      narrative: "'서민 죽이기'라는 비난에 지지율이 폭락합니다."
+    },
+    right: {
+      text: "동결 (적자 방치)",
+      diff: { stock: 5, realEstate: 0, approval: 10, liquidity: -20 },
+      narrative: "한전 부채가 눈덩이처럼 불어납니다. 다음 정부가 수습하겠죠..."
+    }
+  },
+  {
+    id: 'pension_crisis',
+    act: 3,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "국민연금 고갈 D-3년! 연금 개혁 안 하면 2040년에는 한 푼도 못 받습니다!",
+    left: {
+      text: "연금 개혁 단행 (보험료↑ 수령액↓)",
+      diff: { stock: 5, realEstate: 0, approval: -30, liquidity: 10 },
+      narrative: "'연금 도둑'이라는 성토가 빗발칩니다. 정치적 자살이군요."
+    },
+    right: {
+      text: "다음 정부로 미룬다",
+      diff: { stock: 0, realEstate: 0, approval: 5, liquidity: -10 },
+      narrative: "'무책임'이라는 비난을 받지만, 일단 임기는 버틸 수 있겠네요."
+    }
+  },
+  {
+    id: 'regional_extinction',
+    act: 3,
+    character: "지방 군수",
+    image: CHAR.POLITICIAN.img,
+    text: "지방 소멸이 가속화됩니다! 전남·북의 절반이 사라질 위기인데 대책이 있습니까?",
+    left: {
+      text: "지방 이전 인센티브 (보조금)",
+      diff: { stock: -5, realEstate: -10, approval: 10, liquidity: -15 },
+      narrative: "지방은 살아났지만, 서울 집값은 더 올랐습니다."
+    },
+    right: {
+      text: "수도권 집중 (방치)",
+      diff: { stock: 10, realEstate: 15, approval: -10, liquidity: 5 },
+      narrative: "'지방은 버렸다'는 목소리가 커집니다. 지역 균형 발전은 먼 얘기네요."
+    }
+  },
+  {
+    id: 'real_estate_speculation',
+    character: "부동산 유튜버",
+    image: CHAR.CHAEBOL.img,
+    text: "'영끌하면 부자 된다!' 부동산 유튜버들이 부동산 붐을 부채질합니다. 규제하시겠습니까?",
+    left: {
+      text: "허위정보 규제 (단속)",
+      diff: { stock: 0, realEstate: -10, approval: 5, liquidity: 0 },
+      narrative: "투기과열이 진정되었지만, '언론 탄압'이라는 비난도 나옵니다."
+    },
+    right: {
+      text: "표현의 자유 존중",
+      diff: { stock: 5, realEstate: 20, approval: -10, liquidity: -10 },
+      narrative: "영끌족이 급증합니다. 집값 폭등의 뇌관이 되었습니다."
+    }
+  },
+  {
+    id: 'crypto_boom',
+    character: "코인 개미",
+    image: CHAR.ANT.img,
+    text: "비트코인이 1억 돌파! '이번엔 다르다'며 월급 전액 코인 올인하는 사람들이 속출합니다!",
+    left: {
+      text: "가상자산 거래 중단 (강경)",
+      diff: { stock: -10, realEstate: 0, approval: -25, liquidity: 5 },
+      narrative: "'재산권 침해'라는 비난과 함께 촛불집회가 열립니다."
+    },
+    right: {
+      text: "제도권 편입 (과세)",
+      diff: { stock: 10, realEstate: 0, approval: 10, liquidity: 10 },
+      narrative: "코인 투자자들은 환호하지만, 버블 붕괴의 위험도 커졌습니다."
+    }
+  },
+  {
+    id: 'crypto_crash',
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "[긴급] 코인 대폭락! '루나 사태' 재현... 수십만 명이 영혼까지 날렸습니다! 구제해주십시오!",
+    left: {
+      text: "피해자 구제 (보상)",
+      diff: { stock: -10, realEstate: 0, approval: 10, liquidity: -20 },
+      narrative: "'투기 조장'이라는 비난과 함께 재정 부담만 커졌습니다."
+    },
+    right: {
+      text: "자기 책임 원칙",
+      diff: { stock: 5, realEstate: 0, approval: -20, liquidity: 0 },
+      narrative: "'냉혈한'이라는 비난이 쏟아집니다. 2030 지지율 바닥 찍었네요."
+    }
+  },
+  {
+    id: 'young_broke',
+    character: "영끌족",
+    image: CHAR.ANT.img,
+    text: "금리 인상으로 '영끌족' 파산 속출! 하루에 100명씩 파산 신청... 어떻게 하시겠습니까?",
+    left: {
+      text: "긴급 대출 유예 (구제)",
+      diff: { stock: -5, realEstate: 5, approval: 15, liquidity: -10 },
+      narrative: "일단 급한 불은 껐지만, 부실 대출이 쌓여갑니다."
+    },
+    right: {
+      text: "원칙대로 처리 (냉정)",
+      diff: { stock: 5, realEstate: -15, approval: -20, liquidity: 5 },
+      narrative: "'집 없는 서른'들의 눈물이 쏟아집니다. 지지율도 같이 추락하네요."
+    }
+  },
+  {
+    id: 'kimchi_premium',
+    character: "코인 트레이더",
+    image: CHAR.CHAEBOL.img,
+    text: "김치 프리미엄 20% 돌파! 한국 코인값이 전 세계보다 비쌉니다. 외국인들이 웃고 있어요!",
+    left: {
+      text: "해외 송금 규제 강화",
+      diff: { stock: -5, realEstate: 0, approval: -10, liquidity: -5 },
+      narrative: "'폐쇄 경제냐'는 비판에 시장이 위축되었습니다."
+    },
+    right: {
+      text: "자유거래 허용",
+      diff: { stock: 5, realEstate: 0, approval: 5, liquidity: -15 },
+      narrative: "외화가 줄줄 새나갑니다. 환율 방어가 걱정되네요."
+    }
+  },
+  {
+    id: 'small_business_hell',
+    act: 2,
+    character: "소상공인 연합회장",
+    image: CHAR.ANT.img,
+    text: "자영업자 폐업률 역대 최고! '치킨집 1년 생존율 30%'라는데 최저임금까지 오르면 다 망해요!",
+    left: {
+      text: "최저임금 동결",
+      diff: { stock: 5, realEstate: 0, approval: -15, liquidity: 5 },
+      narrative: "자영업자는 안도했지만, 노동계가 들고 일어났습니다."
+    },
+    right: {
+      text: "최저임금 인상 강행",
+      diff: { stock: -5, realEstate: 0, approval: 10, liquidity: -10 },
+      narrative: "'골목상권 몰살'이라는 비명이 들립니다. 폐업 도미노가 시작되었습니다."
+    }
+  },
+  {
+    id: 'kpop_military',
+    act: 2,
+    character: CHAR.POLITICIAN.name,
+    image: CHAR.POLITICIAN.img,
+    text: "BTS 병역 특례 논란! '국위 선양했으니 면제해야' vs '특권 아니냐'... 결정해주십시오!",
+    left: {
+      text: "병역 특례 부여",
+      diff: { stock: 10, realEstate: 0, approval: -10, liquidity: 5 },
+      narrative: "팬들은 환호하지만, '특권 논란'에 공정성 지적이 거셉니다."
+    },
+    right: {
+      text: "원칙 고수 (현역 입대)",
+      diff: { stock: -5, realEstate: 0, approval: 10, liquidity: 0 },
+      narrative: "공정하지만, K-팝 산업이 타격을 받았습니다."
+    }
   }
 ];
