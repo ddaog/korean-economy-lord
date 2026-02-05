@@ -1,11 +1,11 @@
-
-import imgPresident from '../assets/character_president_1770304085131.png';
-import imgChaebol from '../assets/character_chaebol_1770304108828.png';
-import imgAnt from '../assets/character_ant_1770304129316.png';
-import imgForeign from '../assets/character_foreign_1770304152541.png';
-import imgMentor from '../assets/char_mentor_scholar_1770304939917.png';
-import imgUnion from '../assets/char_union_leader_1770305640637.png';
-import imgPoliticianSlick from '../assets/char_politician_slick_1770305659022.png';
+import imgPresident from '../assets/dumb_blob_president_1770308141782.png';
+import imgChaebol from '../assets/dumb_blob_chaebol_1770308167998.png';
+import imgAnt from '../assets/dumb_blob_ant_1770308193364.png';
+import imgForeign from '../assets/dumb_blob_foreign_1770308259696.png';
+import imgMentor from '../assets/char_mentor_scholar_1770304939917.png'; // Keep mentor as "Ghost" or reuse Foreign? Let's hide him or keep old for now.
+import imgUnion from '../assets/char_union_leader_1770305640637.png'; // No dumb blob for union yet, fallback to Ant? Or just use Foreign? Let's use Ant for now.
+import imgPoliticianSlick from '../assets/dumb_blob_politician_1770308306137.png';
+import imgReporterFrantic from '../assets/dumb_blob_reporter_1770308334577.png';
 
 // Character mapping for consistency
 const CHAR = {
@@ -13,10 +13,11 @@ const CHAR = {
   CHAEBOL: { name: "재벌 회장", img: imgChaebol },
   ANT: { name: "개미 투자자", img: imgAnt },
   FOREIGN: { name: "외국인 투자자 / IMF", img: imgForeign },
-  MENTOR: { name: "전임 총재", img: imgMentor },
-  UNION: { name: "노조 위원장", img: imgUnion },
+  MENTOR: { name: "전임 총재", img: imgForeign }, // Use 'Reaper' look for Mentor too? Or Chaebol? Let's use Foreign for "Cold Advisor"
+  UNION: { name: "노조 위원장", img: imgAnt }, // Use Ant (Worker) look
   POLITICIAN: { name: "여당 원내대표", img: imgPoliticianSlick },
-  OPPOSITION: { name: "야당 의원", img: imgPoliticianSlick }, // Reuse slick politician for now
+  OPPOSITION: { name: "야당 의원", img: imgPoliticianSlick },
+  REPORTER: { name: "경제부 기자", img: imgReporterFrantic }
 };
 
 export const EVENTS = [
@@ -24,8 +25,8 @@ export const EVENTS = [
   {
     id: 'act1_call',
     act: 1,
-    character: "경제부 기자",
-    image: imgAnt,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
     text: "[속보] 신임 한국은행 총재 취임! '물가와의 전쟁' 선포하시겠습니까?",
     left: {
       text: "아니요, 성장이 우선입니다.",
@@ -125,6 +126,40 @@ export const EVENTS = [
       narrative: "급한 불은 껐지만, 좀비 기업들도 연명하게 되었습니다."
     }
   },
+  {
+    id: 'act2_chicken_index',
+    act: 2,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "[현장 연결] 치킨 한 마리에 3만원 시대! 국민들의 분노가 폭발 직전입니다! '치킨 지수'를 관리하시겠습니까?",
+    left: {
+      text: "치킨 가격 통제 (행정명령)",
+      diff: { stock: -5, realEstate: 0, approval: 20, liquidity: 0 },
+      narrative: "국민들은 환호하지만, 시장 왜곡이 발생합니다."
+    },
+    right: {
+      text: "시장 가격 존중",
+      diff: { stock: 5, realEstate: 0, approval: -15, liquidity: 0 },
+      narrative: "치킨값은 계속 오르고 당신은 '치킨 적'으로 찍혔습니다."
+    }
+  },
+  {
+    id: 'act2_birth_rate',
+    act: 2,
+    character: CHAR.POLITICIAN.name,
+    image: CHAR.POLITICIAN.img,
+    text: "출산율 0.6명 붕괴! 국가 소멸 위기입니다. 돈을 찍어서라도 출산 지원금을 뿌려야 합니다!",
+    left: {
+      text: "찬성 (무제한 양적완화)",
+      diff: { stock: 15, realEstate: 10, approval: 15, liquidity: 20 },
+      narrative: "아이 한 명당 1억! 하지만 초인플레이션이 옵니다."
+    },
+    right: {
+      text: "반대 (재정 건전성)",
+      diff: { stock: -5, realEstate: -5, approval: -10, liquidity: -5 },
+      narrative: "나라 꼴이 말이 아니군요. 미래 세대가 사라지고 있습니다."
+    }
+  },
 
   // --- ACT 3: JUDGMENT (The Legacy) ---
   {
@@ -142,6 +177,23 @@ export const EVENTS = [
       text: "우린 망하지 않아!",
       diff: { stock: -50, realEstate: -50, approval: -50, liquidity: -50 },
       narrative: "오만함이 파국을 불렀습니다. 국가 부도의 날이 밝았습니다."
+    }
+  },
+  {
+    id: 'act3_medical',
+    act: 3,
+    character: CHAR.UNION.name,
+    image: CHAR.UNION.img,
+    text: "의사들이 파업을 선언했습니다! '수가 인상' 없이는 돌아가지 않겠다고 합니다. 건보 재정이 파탄 날 텐데요?",
+    left: {
+      text: "수가 대폭 인상 (타협)",
+      diff: { stock: 0, realEstate: 0, approval: 5, liquidity: -15 },
+      narrative: "파업은 멈췄지만, 국가 재정에 구멍이 뚫렸습니다."
+    },
+    right: {
+      text: "법적 대응 (원칙)",
+      diff: { stock: -5, realEstate: 0, approval: -10, liquidity: 0 },
+      narrative: "의료 대란이 장기화되며 국민들의 고통이 극에 달합니다."
     }
   },
 
@@ -198,7 +250,7 @@ export const EVENTS = [
     id: 5,
     character: "MZ 세대",
     image: CHAR.ANT.img,
-    text: "월급만으로는 집 못 사요! 비트코인만이 살 길입니다! 거래소 규제 풀어주세요!",
+    text: "월급만으로는 집 못 사요! 비트코인이 유일한 희망인데 채굴장 좀 지원해주시죠?",
     left: {
       text: "가상화폐는 도박이다!",
       diff: { stock: 5, realEstate: 0, approval: -15, liquidity: 0 },
@@ -209,21 +261,21 @@ export const EVENTS = [
       diff: { stock: -5, realEstate: 0, approval: 15, liquidity: -5 },
       narrative: "청년들의 영웅이 되셨군요. 하지만 투기판이 되었습니다."
     }
-  }
-];
-
-export const PASSIVE_CARDS = [
+  },
   {
-    id: 'p1',
-    name: '저출산 고령화',
-    description: '매년 유동성과 지지율이 조금씩 감소합니다.',
-    effect: (stats) => ({ ...stats, liquidity: stats.liquidity - 2, approval: stats.approval - 1 })
+    id: 'onion_scandal',
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "[특종] 대통령이 마트에서 '대파 한 단에 875원이면 합리적'이라고 발언했습니다. 민심이 들끓고 있습니다!",
+    left: {
+      text: "물가 관리 실패 인정 (사과)",
+      diff: { stock: 0, realEstate: 0, approval: -10, liquidity: 0 },
+      narrative: "솔직한 사과에도 불구하고 '대파 챌린지'가 유행합니다."
+    },
+    right: {
+      text: "그건 할인 행사 가격! (해명)",
+      diff: { stock: 0, realEstate: 0, approval: -20, liquidity: 0 },
+      narrative: "변명이 불난 집에 기름을 부었습니다. 지지율이 수직 낙하합니다."
+    }
   }
 ];
-
-export const CHARACTERS = {
-  pres: "대통령",
-  investor: "외국인 투자자",
-  ant: "김개미",
-  chaebol: "재벌 회장"
-};

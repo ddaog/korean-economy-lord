@@ -22,6 +22,7 @@ function App() {
   const [month, setMonth] = useState(1);
   const [gameOver, setGameOver] = useState(null);
   const [previewDeltas, setPreviewDeltas] = useState({});
+  const [history, setHistory] = useState([]);
 
   // Initialize first card
   useEffect(() => {
@@ -29,23 +30,30 @@ function App() {
   }, []);
 
   // Determine current Act based on Year
-  // Act 1: 2025-2026
-  // Act 2: 2027-2028
-  // Act 3: 2029+
   const currentAct = year <= 2026 ? 1 : year <= 2028 ? 2 : 3;
 
-  const pickNewCard = () => {
-    // Filter events by current Act or no act (random events)
-    // Also we might want to ensure 'story' events (with 'act' property) are prioritized or mixed in?
-    // For simplicity, we just filter.
-    const availableEvents = EVENTS.filter(e => !e.act || e.act === currentAct);
+  const pickNewCard = (currentHistory = history) => {
+    // 1. Filter by Act
+    let candidates = EVENTS.filter(e => !e.act || e.act === currentAct);
 
-    // If Act 3 specific event (Abyss) hasn't been shown, force it? 
-    // For now random is fine.
+    // 2. Filter out recently used cards (Cooldown: 10 turns)
+    const available = candidates.filter(e => !currentHistory.includes(e.id));
 
-    const randomCard = availableEvents[Math.floor(Math.random() * availableEvents.length)];
-    // Ensure we can reset the card component (maybe by key)
-    setCurrentCard({ ...randomCard, key: Math.random() });
+    // If pool is exhausted (rare), use all candidates in Act
+    if (available.length > 0) {
+      candidates = available;
+    }
+
+    const randomCard = candidates[Math.floor(Math.random() * candidates.length)];
+
+    if (randomCard) {
+      setCurrentCard({ ...randomCard, key: Math.random() }); // Force re-render
+
+      // Update history
+      const newHistory = [...currentHistory, randomCard.id];
+      if (newHistory.length > 10) newHistory.shift(); // Keep last 10
+      setHistory(newHistory);
+    }
   };
 
   const handleUpdatePreview = (direction) => {
@@ -119,8 +127,19 @@ function App() {
       setMonth(newMonth);
       setYear(newYear);
 
-      // Next card
-      setTimeout(pickNewCard, 200);
+      // Pass the FUTURE history to pickNewCard to ensure immediate effect
+      // But since setHistory is async, valid history is `history` + currentCard.id (already done in pickNewCard?)
+      // Wait, pickNewCard handled updating history state for *next* time.
+      // But we need to pass the *current state* effectively.
+      // Actually, since `pickNewCard` is called from here, it will use the OLD `history` from closure if we don't pass updating one.
+      // So let's construct it.
+      const updatedHistory = [...history, currentCard.id];
+      if (updatedHistory.length > 10) updatedHistory.shift();
+
+      // We also need to update React state
+      setHistory(updatedHistory);
+
+      setTimeout(() => pickNewCard(updatedHistory), 200);
     }
 
     setPreviewDeltas({});
@@ -131,7 +150,9 @@ function App() {
     setYear(2025);
     setMonth(1);
     setGameOver(null);
-    pickNewCard();
+    setHistory([]);
+    // Reset call needs empty history
+    pickNewCard([]);
   };
 
   if (!gameStarted) {
@@ -148,9 +169,6 @@ function App() {
 
       <div style={{ position: 'absolute', top: '100px', width: '100%', textAlign: 'center', zIndex: 0, color: '#9ca3af' }}>
         <h2>{year}년 {month}월</h2>
-        <p style={{ fontWeight: 600, color: '#6b7280' }}>
-          ACT {currentAct}: {currentAct === 1 ? "출범 (The Call)" : currentAct === 2 ? "시련 (The Trials)" : "귀환 (The Return)"}
-        </p>
       </div>
 
       {currentCard && (
