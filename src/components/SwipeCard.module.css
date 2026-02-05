@@ -7,13 +7,17 @@
     position: absolute;
     top: 0;
     left: 0;
-    overflow: hidden;
+    padding-top: 180px;
+    /* Space for StatBar + Date */
+    box-sizing: border-box;
+    overflow: visible;
     perspective: 1000px;
 }
 
 .card {
-    width: 340px;
-    height: 600px;
+    width: 320px;
+    height: 500px;
+    /* Reduced from 600px */
     background: #ffffff;
     border-radius: 50px;
     /* Very rounded */

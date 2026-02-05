@@ -167,8 +167,8 @@ function App() {
     <div className={styles.appContainer}>
       <StatBar stats={stats} previewDeltas={previewDeltas} />
 
-      <div style={{ position: 'absolute', top: '100px', width: '100%', textAlign: 'center', zIndex: 0, color: '#9ca3af' }}>
-        <h2>{year}년 {month}월</h2>
+      <div style={{ position: 'absolute', top: '110px', width: '100%', textAlign: 'center', zIndex: 10, color: '#636e72' }}>
+        <h2 style={{ fontSize: '20px', fontWeight: '700', margin: '0', padding: '8px 24px', display: 'inline-block', backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: '30px', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>{year}년 {month}월</h2>
       </div>
 
       {currentCard && (
