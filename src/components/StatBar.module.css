@@ -1,0 +1,136 @@
+
+.topBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #f3f4f6;
+  border-bottom: 2px solid #e5e7eb;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.statContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 50px;
+}
+
+.iconWrapper {
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 2;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+  border: 2px solid #333;
+}
+
+.icon {
+  color: #333;
+}
+
+/* Reigns style uses dots/circles implies resource magnitude usually hidden directly but shown effectively by filling the icon or a bar.
+   Here I implemented a vertical bar container trick behind or simple separate bar logic?
+   Wait, the component code used a valid barFill?
+   Ah, I used a `barContainer` but usually in Reigns the "fill" is the icon itself (like a water level inside the icon) OR a small bar above/below.
+   Let's do a small bar *inside* the wider container, or make the icon *be* the top of the bar.
+   
+   Actually, Reigns has the symbols at the top, and a small dot appears above them to indicate change. The LEVEL is actually somewhat hidden or shown as a filling of the icon background.
+   
+   Let's implement a simple vertical bar behind the icon or overlay?
+   Actually, `barContainer` suggests a bar.
+*/
+
+.barContainer {
+  width: 10px;
+  height: 0; /* Hidden by default if we want reigns-style "hidden stats" but users usually want to see stats?
+              Reigns hides exact numbers but shows rough fill.
+              I'll just show the icon and a dot for change.
+              Wait, the logic in StatBar.jsx renders a barFill with height safeValue%.
+              So I should give barContainer a height.
+             */
+  height: 5px;
+  width: 40px;
+  background-color: #e5e7eb;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #9ca3af;
+  margin-top: 2px;
+}
+
+.barFill {
+  background-color: #333;
+  width: 100%; /* Horizontal bar logic? or Vertical?
+                The JSX sets height%, so it's a vertical bar?
+                If height%, the container needs height. 
+                Let's make it a horizontal bar for easier reading on top.
+                Wait, JSX sets `height: ${safeValue}%`. This implies vertical bar logic.
+               */
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+
+/* If it is vertical, it should be taller */
+.statContainer {
+  /* Let's ignore the bar for a moment and just focus on the icon and dot.
+     Reigns only shows the dot to hint the consequence.
+     But I want to show the current level too? 
+     Reigns shows level by how "full" the icon is.
+     Let's style .barContainer to be behind the icon?
+     
+     Actually, let's keep it simple: A horizontal bar below the icon.
+     But `height` style in JSX implies vertical.
+     I will change CSS to make it work as a small vertical pill next to the icon or just a horizontal bar.
+     
+     Let's stick to the existing JSX logic: Vertical bar.
+  */
+}
+
+.barContainer {
+  height: 40px; /* Vertical height */
+  width: 8px;
+  background-color: #ddd;
+  position: relative;
+  display: flex;
+  align-items: flex-end; /* Align fill to bottom */
+  border-radius: 4px;
+  border: 1px solid #333;
+  margin-top: 5px;
+}
+
+.indicator {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
+}
+
+.up {
+  background-color: #4ade80; /* Green */
+}
+
+.down {
+  background-color: #f87171; /* Red */
+}
+
+.previewFill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.barFill {
+  z-index: 0;
+}
