@@ -18,18 +18,18 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
     // Drag Left (<0) -> Choosing the LEFT option provided in data.
     // Why? "Swipe Right" usually means "Yes" or the "Right" choice visually.
 
-    const rightTagOpacity = useTransform(x, [50, 150], [0, 1]); // Dragging Right -> Show Right Choice Tag
-    const leftTagOpacity = useTransform(x, [-50, -150], [0, 1]); // Dragging Left -> Show Left Choice Tag
+    const rightTagOpacity = useTransform(x, [20, 100], [0, 1]); // Dragging Right -> Show Right Choice Tag FASTER
+    const leftTagOpacity = useTransform(x, [-20, -100], [0, 1]); // Dragging Left -> Show Left Choice Tag FASTER
 
     // Background color change for feedback
-    const boxColor = useTransform(x, [-150, 0, 150], ['#fca5a5', '#ffffff', '#86efac']);
+    const boxColor = useTransform(x, [-100, 0, 100], ['#fca5a5', '#ffffff', '#86efac']);
 
     useEffect(() => {
         const unsubscribe = x.onChange((v) => {
             // Update preview stats in parent
-            if (v > 50) {
+            if (v > 20) {
                 updatePreview('right'); // Dragging Right
-            } else if (v < -50) {
+            } else if (v < -20) {
                 updatePreview('left'); // Dragging Left
             } else {
                 updatePreview(null);
@@ -80,12 +80,12 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                 </div>
 
                 {/* Overlays for choices */}
-                <motion.div className={styles.choiceTag} style={{ opacity: rightTagOpacity, left: 20, transform: 'rotate(-10deg)', color: '#166534', borderColor: '#166534' }}>
-                    {card.right.text}
+                <motion.div className={styles.choiceTag} style={{ opacity: rightTagOpacity, left: 20, transform: 'rotate(-10deg)', color: '#fff', backgroundColor: '#10b981', borderColor: '#10b981' }}>
+                    ✅ {card.right.text}
                 </motion.div>
 
-                <motion.div className={styles.choiceTag} style={{ opacity: leftTagOpacity, right: 20, transform: 'rotate(10deg)', color: '#991b1b', borderColor: '#991b1b' }}>
-                    {card.left.text}
+                <motion.div className={styles.choiceTag} style={{ opacity: leftTagOpacity, right: 20, transform: 'rotate(10deg)', color: '#fff', backgroundColor: '#ef4444', borderColor: '#ef4444' }}>
+                    ❌ {card.left.text}
                 </motion.div>
 
             </motion.div>
