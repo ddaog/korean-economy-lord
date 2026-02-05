@@ -28,8 +28,22 @@ function App() {
     pickNewCard();
   }, []);
 
+  // Determine current Act based on Year
+  // Act 1: 2025-2026
+  // Act 2: 2027-2028
+  // Act 3: 2029+
+  const currentAct = year <= 2026 ? 1 : year <= 2028 ? 2 : 3;
+
   const pickNewCard = () => {
-    const randomCard = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+    // Filter events by current Act or no act (random events)
+    // Also we might want to ensure 'story' events (with 'act' property) are prioritized or mixed in?
+    // For simplicity, we just filter.
+    const availableEvents = EVENTS.filter(e => !e.act || e.act === currentAct);
+
+    // If Act 3 specific event (Abyss) hasn't been shown, force it? 
+    // For now random is fine.
+
+    const randomCard = availableEvents[Math.floor(Math.random() * availableEvents.length)];
     // Ensure we can reset the card component (maybe by key)
     setCurrentCard({ ...randomCard, key: Math.random() });
   };
@@ -134,7 +148,9 @@ function App() {
 
       <div style={{ position: 'absolute', top: '100px', width: '100%', textAlign: 'center', zIndex: 0, color: '#9ca3af' }}>
         <h2>{year}년 {month}월</h2>
-        <p>한국은행 총재 집무실</p>
+        <p style={{ fontWeight: 600, color: '#6b7280' }}>
+          ACT {currentAct}: {currentAct === 1 ? "출범 (The Call)" : currentAct === 2 ? "시련 (The Trials)" : "귀환 (The Return)"}
+        </p>
       </div>
 
       {currentCard && (
