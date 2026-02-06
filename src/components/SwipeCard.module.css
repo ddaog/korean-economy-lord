@@ -95,19 +95,23 @@
     word-break: keep-all;
 }
 
-.choiceTag {
+.choiceOverlay {
     position: absolute;
     top: 25%;
-    /* Move down a bit for better visibility over character */
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.choiceTag {
     padding: 12px 24px;
     border-radius: 50px;
     font-weight: 800;
     font-size: 1.3rem;
-    /* Slightly larger */
     text-transform: uppercase;
-    pointer-events: none;
     color: #fff;
     /* 3D Sticker Look */
     box-shadow:
