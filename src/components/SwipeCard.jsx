@@ -21,9 +21,9 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
     const rightTagOpacity = useTransform(x, [10, 60], [0, 1]);
     const leftTagOpacity = useTransform(x, [-10, -60], [0, 1]);
 
-    // Scale: Pop effect (starts 0.8, pops to 1.1)
-    const rightTagScale = useTransform(x, [10, 60], [0.8, 1.1]);
-    const leftTagScale = useTransform(x, [-10, -60], [0.8, 1.1]);
+    // Scale: No pop effect (constant 1)
+    const rightTagScale = useTransform(x, [10, 60], [1, 1]);
+    const leftTagScale = useTransform(x, [-10, -60], [1, 1]);
 
     // Rotation: Slight tilt for dynamic feel
     const rightTagRotate = useTransform(x, [0, 100], [-5, 0]);
@@ -74,10 +74,10 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                 {/* Meeting Type Badge */}
                 {card.type && (
                     <div className={`${styles.meetingBadge} ${card.type === 'MPC' ? styles.badgeMPC :
-                            card.type === 'FSM' ? styles.badgeFSM :
-                                card.type === 'URGENT' ? styles.badgeURGENT :
-                                    card.type === 'CHAIN' ? styles.badgeCHAIN :
-                                        styles.badgeGENERAL
+                        card.type === 'FSM' ? styles.badgeFSM :
+                            card.type === 'URGENT' ? styles.badgeURGENT :
+                                card.type === 'CHAIN' ? styles.badgeCHAIN :
+                                    styles.badgeGENERAL
                         }`}>
                         {card.type === 'MPC' ? "통화정책 결정회의" :
                             card.type === 'FSM' ? "금융안정회의" :
