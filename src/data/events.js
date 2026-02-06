@@ -53,17 +53,17 @@ export const EVENTS = [
     type: EVENT_TYPES.GENERAL,
     character: CHAR.REPORTER.name,
     image: CHAR.REPORTER.img,
-    text: "당신은 한국은행 총재로 첫 출근을 했습니다. 로비에는 축하 꽃다발과 함께 직원들이 줄지어 서 있고, 기자들은 플래시 세례를 퍼붓습니다. 경제는 이미 심상치 않습니다 – 물가는 꿈틀대고 환율은 요동치는데, 이제 모든 책임은 당신의 몫입니다.",
+    text: "한국은행 총재 첫 출근. 기자들의 플래시 세례. 물가는 꿈틀대고 환율은 요동친다. 모든 책임은 이제 당신의 몫.",
     left: {
-      text: "조용히 사무실로 들어가 내부 보고부터 챙긴다",
+      text: "조용히 사무실로",
       diff: { infl: 0, growth: 0, stability: 0, trust: -5 },
-      narrative: "대중의 존재감이 낮아졌습니다.",
+      narrative: "존재감 ↓",
       chains: [{ eventId: 'C-003', delay: 0 }]
     },
     right: {
-      text: "\"경제 안정 최우선!\" 취임 연설을 힘차게 발표한다",
+      text: "\"안정 최우선!\" 연설",
       diff: { infl: 0, growth: 0, stability: 0, trust: 5 },
-      narrative: "대중의 기대가 상승했습니다!",
+      narrative: "기대 ↑",
       chains: [{ eventId: 'C-002', delay: 0 }]
     }
   },
@@ -801,6 +801,275 @@ export const EVENTS = [
       narrative: "중앙은행 신뢰가 바닥이고 국제적 망신을 당했습니다.",
       isEnding: true,
       endingType: 'ECONOMIC_COLLAPSE_RESIGNED'
+    }
+  },
+
+  // ===== PHASE A+: SIDE EVENTS =====
+
+  // S-001: 재벌 로비
+  {
+    id: 'S-001',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 10,
+    tags: ['chaebol', 'politics'],
+    conditions: {
+      metrics: { trust: [0, 60] }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "재벌 총수가 은밀히 접촉. \"금리 인상은 기업 투자를 막습니다.\"",
+    left: {
+      text: "\"시장 원리 존중\"",
+      diff: { infl: 0, growth: -1, stability: 0, trust: 3 },
+      narrative: "독립성 ↑"
+    },
+    right: {
+      text: "\"고려하겠다\"",
+      diff: { infl: 1, growth: 2, stability: 0, trust: -2 },
+      narrative: "유착 의혹"
+    }
+  },
+
+  // S-002: 언론 압박
+  {
+    id: 'S-002',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 8,
+    tags: ['media', 'trust'],
+    conditions: {
+      metrics: { trust: [0, 50] }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "\"총재 무능론\" 기사 확산. 사퇴 압박 여론.",
+    left: {
+      text: "반박 성명",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -3 },
+      narrative: "논쟁 격화"
+    },
+    right: {
+      text: "침묵",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "의연함 평가"
+    }
+  },
+
+  // S-003: 환율 급등
+  {
+    id: 'S-003',
+    deck: 'CRISIS',
+    weight: 70,
+    cooldown: 12,
+    tags: ['crisis', 'inflation'],
+    conditions: {
+      metrics: { infl: [60, 100], stability: [0, 40] }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "원/달러 1600원 돌파! 수입물가 폭등 우려.",
+    left: {
+      text: "외환 개입",
+      diff: { infl: -2, growth: 0, stability: -3, trust: 0 },
+      narrative: "외환보유액 ↓"
+    },
+    right: {
+      text: "시장 맡김",
+      diff: { infl: 3, growth: 0, stability: 0, trust: -2 },
+      narrative: "물가 압력 ↑"
+    }
+  },
+
+  // S-004: 청년 실업
+  {
+    id: 'S-004',
+    deck: 'DAILY',
+    weight: 45,
+    cooldown: 10,
+    tags: ['growth', 'politics'],
+    conditions: {
+      metrics: { growth: [0, 35] }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "청년 실업률 사상 최고. \"금리 때문에 일자리가 없다\"",
+    left: {
+      text: "\"구조적 문제\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "책임 회피 비판"
+    },
+    right: {
+      text: "완화 시사",
+      diff: { infl: 1, growth: 1, stability: 0, trust: 1 },
+      narrative: "기대감 형성"
+    }
+  },
+
+  // S-005: 부동산 PF 부실
+  {
+    id: 'S-005',
+    deck: 'CRISIS',
+    weight: 60,
+    cooldown: 15,
+    tags: ['stability', 'real_estate', 'crisis'],
+    conditions: {
+      metrics: { stability: [0, 30] }
+    },
+    type: EVENT_TYPES.FSM,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "건설사 PF 대출 부실화. 연쇄 도산 우려.",
+    left: {
+      text: "긴급 유동성",
+      diff: { infl: 1, growth: 0, stability: -2, trust: -1 },
+      narrative: "모럴해저드",
+      effects: {
+        openSubDecks: [{ id: 'SUB_PF', duration: 5 }]
+      }
+    },
+    right: {
+      text: "시장 정리",
+      diff: { infl: 0, growth: -2, stability: 0, trust: 2 },
+      narrative: "구조조정 시작"
+    }
+  },
+
+  // S-006: 가계부채 폭탄
+  {
+    id: 'S-006',
+    deck: 'DAILY',
+    weight: 55,
+    cooldown: 10,
+    tags: ['stability', 'interest_rate'],
+    conditions: {
+      metrics: { infl: [0, 100], stability: [0, 50] }
+    },
+    type: EVENT_TYPES.FSM,
+    character: CHAR.SME.name,
+    image: CHAR.SME.img,
+    text: "가계부채 2000조 돌파. 연체율 급증.",
+    left: {
+      text: "금리 동결",
+      diff: { infl: 2, growth: 1, stability: -1, trust: 0 },
+      narrative: "부채 부담 완화"
+    },
+    right: {
+      text: "긴축 유지",
+      diff: { infl: -1, growth: -1, stability: 0, trust: 1 },
+      narrative: "부실 증가"
+    }
+  },
+
+  // S-007: 노조 총파업
+  {
+    id: 'S-007',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 12,
+    tags: ['labor', 'growth'],
+    conditions: {
+      metrics: { growth: [0, 40] }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.UNION.name,
+    image: CHAR.UNION.img,
+    text: "전국 노조 총파업. \"고금리가 서민 죽인다\"",
+    left: {
+      text: "대화 제안",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "소통 노력"
+    },
+    right: {
+      text: "정책 고수",
+      diff: { infl: 0, growth: -1, stability: 0, trust: -2 },
+      narrative: "갈등 심화"
+    }
+  },
+
+  // S-008: 중소기업 연쇄 도산
+  {
+    id: 'S-008',
+    deck: 'CRISIS',
+    weight: 65,
+    cooldown: 10,
+    tags: ['sme', 'growth', 'crisis'],
+    conditions: {
+      metrics: { growth: [0, 30], stability: [0, 40] }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.SME.name,
+    image: CHAR.SME.img,
+    text: "중소기업 월 1000개 폐업. \"이자 감당 못해\"",
+    left: {
+      text: "특별 지원책",
+      diff: { infl: 1, growth: 1, stability: -1, trust: 0 },
+      narrative: "재정 부담 ↑"
+    },
+    right: {
+      text: "구조조정 필요",
+      diff: { infl: 0, growth: -2, stability: 0, trust: -3 },
+      narrative: "냉혈 비판"
+    }
+  },
+
+  // S-009: 외국인 자금 이탈
+  {
+    id: 'S-009',
+    deck: 'CRISIS',
+    weight: 70,
+    cooldown: 15,
+    tags: ['market', 'stability', 'crisis'],
+    conditions: {
+      metrics: { stability: [0, 35], trust: [0, 40] }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "외국인 투자자 대규모 이탈. 코스피 급락.",
+    left: {
+      text: "안정 메시지",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "일시 진정"
+    },
+    right: {
+      text: "금리 인상",
+      diff: { infl: -2, growth: -2, stability: 1, trust: 0 },
+      narrative: "자금 유입 유도"
+    }
+  },
+
+  // S-010: 정치권 한은법 개정 시도
+  {
+    id: 'S-010',
+    deck: 'CRISIS',
+    weight: 80,
+    cooldown: 999,
+    tags: ['politics', 'trust', 'crisis'],
+    conditions: {
+      metrics: { trust: [0, 30] },
+      turn: { min: 15 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.POLITICIAN.name,
+    image: CHAR.POLITICIAN.img,
+    text: "여당, 한은법 개정안 발의. \"총재 임명권 강화\"",
+    left: {
+      text: "강력 반발",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 3 },
+      narrative: "독립성 사수",
+      effects: {
+        setFlags: ['independence_fight']
+      }
+    },
+    right: {
+      text: "타협 모색",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -5 },
+      narrative: "굴복으로 인식"
     }
   }
 ];

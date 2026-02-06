@@ -69,22 +69,22 @@
 }
 
 .characterName {
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: #a4b0be;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     background: #f1f2f6;
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 20px;
 }
 
 .cardText {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     color: #2f3542;
-    line-height: 1.4;
-    font-weight: 700;
+    line-height: 1.35;
+    font-weight: 600;
     margin: 0;
     word-break: keep-all;
 }
@@ -92,10 +92,10 @@
 .choiceTag {
     position: absolute;
     top: 50px;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 50px;
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     pointer-events: none;
     color: #fff;

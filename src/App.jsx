@@ -158,6 +158,20 @@ function App() {
     const choice = direction === 'left' ? currentCard.left : currentCard.right;
     const deathCause = applyEffects(choice.diff);
 
+    // Apply choice effects (flags, sub-decks, etc.)
+    if (choice.effects) {
+      const newGameState = new GameState(gameState.metrics);
+      Object.assign(newGameState, gameState);
+      applyChoiceEffects(choice, newGameState);
+      setGameState(newGameState);
+    }
+
+    // Increment turn
+    const newGameState2 = new GameState(gameState.metrics);
+    Object.assign(newGameState2, gameState);
+    newGameState2.incrementTurn();
+    setGameState(newGameState2);
+
     if (deathCause) {
       setTimeout(() => setGameOver(deathCause), 500); // Slight delay for effect
     } else {
@@ -192,7 +206,7 @@ function App() {
       if (updatedHistory.length > 12) updatedHistory.shift();
       setHistory(updatedHistory);
 
-      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, newMonth, newYear), 200);
+      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, gameState), 200);
     }
 
     setPreviewDeltas({});
