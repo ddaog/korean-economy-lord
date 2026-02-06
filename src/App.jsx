@@ -4,7 +4,7 @@ import StatBar from './components/StatBar';
 import SwipeCard from './components/SwipeCard';
 import GameOverScreen from './components/GameOverScreen';
 import StartScreen from './components/StartScreen';
-import { EVENTS } from './data/events';
+import { EVENTS, EVENT_TYPES } from './data/events';
 import styles from './App.module.css';
 
 const INITIAL_STATS = {
