@@ -1,11 +1,12 @@
-import imgPresident from '../assets/dumb_blob_president_1770308141782.png';
-import imgChaebol from '../assets/dumb_blob_chaebol_1770308167998.png';
-import imgAnt from '../assets/dumb_blob_ant_1770308193364.png';
-import imgForeign from '../assets/dumb_blob_foreign_1770308259696.png';
-import imgMentor from '../assets/char_mentor_scholar_1770304939917.png'; // Keep mentor as "Ghost" or reuse Foreign? Let's hide him or keep old for now.
-import imgUnion from '../assets/char_union_leader_1770305640637.png'; // No dumb blob for union yet, fallback to Ant? Or just use Foreign? Let's use Ant for now.
-import imgPoliticianSlick from '../assets/dumb_blob_politician_1770308306137.png';
-import imgReporterFrantic from '../assets/dumb_blob_reporter_1770308334577.png';
+import imgPresident from '../assets/korean_db_president_1770344680843.png';
+import imgChaebol from '../assets/korean_db_chaebol_1770344695294.png';
+import imgAnt from '../assets/korean_db_ant_1770344711922.png';
+import imgForeign from '../assets/korean_db_foreign_1770344727449.png';
+import imgMentor from '../assets/char_mentor_scholar_1770304939917.png'; // Keep mentor as "Ghost" for now
+import imgUnion from '../assets/korean_db_union_1770344816296.png'; // Updated to Korean Union Leader
+import imgPoliticianSlick from '../assets/korean_db_politician_1770344772080.png';
+import imgReporterFrantic from '../assets/korean_db_reporter_1770344755475.png';
+import imgSME from '../assets/korean_db_sme_1770344788709.png'; // New SME asset
 
 // Character mapping for consistency
 const CHAR = {
@@ -13,11 +14,12 @@ const CHAR = {
   CHAEBOL: { name: "재벌 회장", img: imgChaebol },
   ANT: { name: "개미 투자자", img: imgAnt },
   FOREIGN: { name: "외국인 투자자 / IMF", img: imgForeign },
-  MENTOR: { name: "전임 총재", img: imgForeign }, // Use 'Reaper' look for Mentor too? Or Chaebol? Let's use Foreign for "Cold Advisor"
-  UNION: { name: "노조 위원장", img: imgAnt }, // Use Ant (Worker) look
+  MENTOR: { name: "전임 총재", img: imgForeign }, // Use 'Cold Foreign' look for Mentor effectively? Or just keep old one? Let's use Foreign for "Cold Advisor" style as planned.
+  UNION: { name: "노조 위원장", img: imgUnion },
   POLITICIAN: { name: "여당 원내대표", img: imgPoliticianSlick },
   OPPOSITION: { name: "야당 의원", img: imgPoliticianSlick },
-  REPORTER: { name: "경제부 기자", img: imgReporterFrantic }
+  REPORTER: { name: "경제부 기자", img: imgReporterFrantic },
+  SME: { name: "중소기업 사장", img: imgSME }
 };
 
 export const EVENTS = [
@@ -112,8 +114,8 @@ export const EVENTS = [
   {
     id: 'act2_sme_crisis',
     act: 2,
-    character: "중소기업 사장",
-    image: imgAnt, // Reusing relatable image
+    character: CHAR.SME.name,
+    image: CHAR.SME.img,
     text: "금리가 너무 높아서 이자 갚다가 다 망하게 생겼습니다! 제발 살려주십시오!",
     left: {
       text: "어쩔 수 없습니다 (원칙 고수)",
@@ -498,8 +500,8 @@ export const EVENTS = [
   {
     id: 'small_business_hell',
     act: 2,
-    character: "소상공인 연합회장",
-    image: CHAR.ANT.img,
+    character: CHAR.SME.name,
+    image: CHAR.SME.img,
     text: "자영업자 폐업률 역대 최고! '치킨집 1년 생존율 30%'라는데 최저임금까지 오르면 다 망해요!",
     left: {
       text: "최저임금 동결",
