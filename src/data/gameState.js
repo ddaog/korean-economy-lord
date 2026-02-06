@@ -10,7 +10,7 @@ export class GameState {
             trust: 50
         };
         this.flags = new Set();
-        this.turn = 0;
+        this.turn = 1;
         this.recentCards = [];  // Last 10 card IDs
         this.activeSubDecks = new Map();  // deckId -> expiresAt
         this.cardHistory = new Map();  // cardId -> lastSeenTurn
