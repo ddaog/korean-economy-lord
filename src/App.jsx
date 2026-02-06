@@ -83,51 +83,35 @@ function App() {
     }
   };
 
+  const getScaledDiff = (diff, metrics, turn) => {
+    const turnBasedMultiplier = 1.0 + (turn / 24) * 0.5;
+    const scaledDiff = {};
+
+    Object.keys(metrics).forEach(key => {
+      let delta = (diff[key] || 0);
+      if (delta !== 0) {
+        delta *= turnBasedMultiplier;
+        // Volatility: Higher impact when stats are in "Danger Zone"
+        if (metrics[key] < 20 || metrics[key] > 80) {
+          delta *= 1.5;
+        }
+      }
+      scaledDiff[key] = delta;
+    });
+
+    return scaledDiff;
+  };
+
   const handleUpdatePreview = (direction) => {
     if (!currentCard) return;
-    if (direction === 'left') {
-      setPreviewDeltas({
-        infl: currentCard.left.diff.infl || 0,
-        growth: currentCard.left.diff.growth || 0,
-        stability: currentCard.left.diff.stability || 0,
-        trust: currentCard.left.diff.trust || 0
-      });
-    } else if (direction === 'right') {
-      setPreviewDeltas({
-        infl: currentCard.right.diff.infl || 0,
-        growth: currentCard.right.diff.growth || 0,
-        stability: currentCard.right.diff.stability || 0,
-        trust: currentCard.right.diff.trust || 0
-      });
+    const choice = direction === 'left' ? currentCard.left : currentCard.right;
+
+    if (choice) {
+      const scaledDiff = getScaledDiff(choice.diff, gameState.metrics, gameState.turn);
+      setPreviewDeltas(scaledDiff);
     } else {
       setPreviewDeltas({});
     }
-  };
-
-  const applyEffects = (diff) => {
-    const newStats = { ...gameState.metrics };
-    let causeOfDeath = null;
-
-    Object.keys(newStats).forEach(key => {
-      newStats[key] += (diff[key] || 0);
-
-      // Check boundaries
-      if (newStats[key] <= 0) {
-        newStats[key] = 0;
-        causeOfDeath = getDeathMessage(key, 'min');
-      } else if (newStats[key] >= 100) {
-        newStats[key] = 100;
-        causeOfDeath = getDeathMessage(key, 'max');
-      }
-    });
-
-    // Update game state metrics
-    const newGameState = new GameState(newStats);
-    Object.assign(newGameState, gameState);
-    newGameState.metrics = newStats;
-    setGameState(newGameState);
-
-    return causeOfDeath;
   };
 
   const getDeathMessage = (stat, type) => {
@@ -144,26 +128,59 @@ function App() {
     if (!currentCard) return;
 
     const choice = direction === 'left' ? currentCard.left : currentCard.right;
-    const deathCause = applyEffects(choice.diff);
 
-    // Apply choice effects (flags, sub-decks, etc.)
+    // 1. Calculate Scaled Stat Changes
+    const scaledDiff = getScaledDiff(choice.diff, gameState.metrics, gameState.turn);
+    const newStats = { ...gameState.metrics };
+    let deathCause = null;
+
+    Object.keys(newStats).forEach(key => {
+      newStats[key] += (scaledDiff[key] || 0);
+
+      // Boundary Checks
+      if (newStats[key] <= 0) {
+        newStats[key] = 0;
+        deathCause = getDeathMessage(key, 'min');
+      } else if (newStats[key] >= 100) {
+        newStats[key] = 100;
+        deathCause = getDeathMessage(key, 'max');
+      }
+    });
+
+    // 2. Clone GameState and update locally
+    const nextGameState = new GameState(newStats);
+    // Manually copy non-metric states
+    nextGameState.flags = new Set(gameState.flags);
+    nextGameState.turn = gameState.turn;
+    nextGameState.recentCards = [...gameState.recentCards];
+    nextGameState.activeSubDecks = new Set(gameState.activeSubDecks);
+    nextGameState.cardHistory = new Map(gameState.cardHistory);
+
+    // 3. Apply Choice Effects (Flags, Sub-decks)
     if (choice.effects) {
-      const newGameState = new GameState(gameState.metrics);
-      Object.assign(newGameState, gameState);
-      applyChoiceEffects(choice, newGameState);
-      setGameState(newGameState);
+      applyChoiceEffects(choice, nextGameState);
     }
 
-    // Increment turn
-    const newGameState2 = new GameState(gameState.metrics);
-    Object.assign(newGameState2, gameState);
-    newGameState2.incrementTurn();
-    setGameState(newGameState2);
+    // 4. Increment Turn & Apply Passive Drift
+    nextGameState.incrementTurn();
+
+    // Passive Drift: Stability and Trust decay slightly over time if not managed
+    if (nextGameState.turn % 3 === 0) {
+      nextGameState.metrics.stability = Math.max(0, nextGameState.metrics.stability - 1);
+      nextGameState.metrics.trust = Math.max(0, nextGameState.metrics.trust - 1);
+
+      // Re-check death after drift
+      if (nextGameState.metrics.stability <= 0 && !deathCause) deathCause = getDeathMessage('stability', 'min');
+      if (nextGameState.metrics.trust <= 0 && !deathCause) deathCause = getDeathMessage('trust', 'min');
+    }
+
+    // 5. Commit state update
+    setGameState(nextGameState);
 
     if (deathCause) {
-      setTimeout(() => setGameOver(deathCause), 500); // Slight delay for effect
+      setTimeout(() => setGameOver(deathCause), 500);
     } else {
-      // Advance time (1 Month per turn for realistic schedule)
+      // Advance time (1 Month per turn)
       let newMonth = month + 1;
       let newYear = year;
       if (newMonth > 12) {
@@ -177,8 +194,7 @@ function App() {
       let nextFutureQueue = [...futureEventQueue];
       if (choice.chains) {
         choice.chains.forEach(chain => {
-          // Calculate due date
-          let dueMonth = newMonth + chain.delay; // Delay relative to NEXT month
+          let dueMonth = newMonth + chain.delay;
           let dueYear = newYear;
           while (dueMonth > 12) {
             dueMonth -= 12;
@@ -189,12 +205,12 @@ function App() {
         setFutureEventQueue(nextFutureQueue);
       }
 
-      // History updates
+      // Record History for UI
       const updatedHistory = [...history, currentCard.id];
       if (updatedHistory.length > 12) updatedHistory.shift();
       setHistory(updatedHistory);
 
-      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, newGameState2), 200);
+      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, nextGameState), 200);
     }
 
     setPreviewDeltas({});
