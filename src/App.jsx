@@ -35,13 +35,24 @@ function App() {
     FSM: [3, 6, 9, 12]               // Financial Stability
   };
 
-  const pickNewCard = (currentHistory = history, currentFutureQueue = futureEventQueue, currentMonth = month, currentYear = year) => {
+  const pickNewCard = (currentHistory = history, currentFutureQueue = futureEventQueue, currentGameState = gameState) => {
+    // SPECIAL CASE: First card must be C-001
+    if (currentGameState.turn === 1 && currentHistory.length === 0) {
+      const firstCard = ENRICHED_EVENTS.find(e => e.id === 'C-001');
+      if (firstCard) {
+        setCurrentCard({ ...firstCard, key: Math.random() });
+        const newHistory = ['C-001'];
+        setHistory(newHistory);
+        return;
+      }
+    }
+
     // 1. Check Future/Chained Events
-    const dueEventIndex = currentFutureQueue.findIndex(item => item.dueYear === currentYear && item.dueMonth === currentMonth);
+    const dueEventIndex = currentFutureQueue.findIndex(item => item.dueYear === year && item.dueMonth === month);
 
     if (dueEventIndex !== -1) {
       const dueEvent = currentFutureQueue[dueEventIndex];
-      const eventData = EVENTS.find(e => e.id === dueEvent.eventId);
+      const eventData = ENRICHED_EVENTS.find(e => e.id === dueEvent.eventId);
 
       if (eventData) {
         // Remove from queue
@@ -50,47 +61,24 @@ function App() {
         setFutureEventQueue(newQueue);
 
         setCurrentCard({ ...eventData, key: Math.random() });
+
+        // Update history
+        const newHistory = [...currentHistory, eventData.id];
+        if (newHistory.length > 20) newHistory.shift();
+        setHistory(newHistory);
         return;
       }
     }
 
-    // 2. Identify Target Type based on Month
-    let targetType = EVENT_TYPES.GENERAL;
-    if (BOK_SCHEDULE.MPC.includes(currentMonth)) targetType = EVENT_TYPES.MPC;
-    else if (BOK_SCHEDULE.FSM.includes(currentMonth)) targetType = EVENT_TYPES.FSM;
+    // 2. Use Smart Card Selector
+    const selectedCard = selectNextCard(currentGameState, ENRICHED_EVENTS);
 
-    // 3. Filter by Act & Type
-    // Try to find events matching current schedule type first
-    let candidates = EVENTS.filter(e =>
-      (!e.act || e.act === currentAct) &&
-      (e.type === targetType)
-    );
-
-    // If no specific schedule event found (or empty), fallback to GENERAL or any allowed
-    if (candidates.length === 0) {
-      candidates = EVENTS.filter(e =>
-        (!e.act || e.act === currentAct) &&
-        (e.type === EVENT_TYPES.GENERAL || !e.type)
-      );
-    }
-
-    // 4. Filter out recently used cards (Cooldown: 12 months)
-    const available = candidates.filter(e => !currentHistory.includes(e.id));
-    if (available.length > 0) {
-      candidates = available;
-    } else if (candidates.length === 0) {
-      // Absolute fallback if everything is cooled down or missing
-      candidates = EVENTS.filter(e => !e.act || e.act === currentAct);
-    }
-
-    const randomCard = candidates[Math.floor(Math.random() * candidates.length)];
-
-    if (randomCard) {
-      setCurrentCard({ ...randomCard, key: Math.random() }); // Force re-render
+    if (selectedCard) {
+      setCurrentCard({ ...selectedCard, key: Math.random() }); // Force re-render
 
       // Update history
-      const newHistory = [...currentHistory, randomCard.id];
-      if (newHistory.length > 12) newHistory.shift(); // Keep last 12
+      const newHistory = [...currentHistory, selectedCard.id];
+      if (newHistory.length > 20) newHistory.shift(); // Keep last 20
       setHistory(newHistory);
     }
   };
@@ -206,7 +194,7 @@ function App() {
       if (updatedHistory.length > 12) updatedHistory.shift();
       setHistory(updatedHistory);
 
-      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, gameState), 200);
+      setTimeout(() => pickNewCard(updatedHistory, nextFutureQueue, newGameState2), 200);
     }
 
     setPreviewDeltas({});
@@ -220,7 +208,8 @@ function App() {
     setHistory([]);
     setFutureEventQueue([]);
     // Reset call needs empty history
-    pickNewCard([], [], new GameState(INITIAL_STATS));
+    const freshGameState = new GameState(INITIAL_STATS);
+    pickNewCard([], [], freshGameState);
   };
 
   if (!gameStarted) {
