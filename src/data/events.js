@@ -1184,6 +1184,540 @@ export const EVENTS = [
     }
   },
 
+  // ===== PHASE A++: EXTENDED VARIETY EVENTS (C-051~C-070) =====
+
+  // C-051: 가족의 한마디 (긴축 경로)
+  {
+    id: 'C-051',
+    deck: 'DAILY',
+    weight: 30,
+    cooldown: 999,
+    tags: ['family', 'personal'],
+    conditions: {
+      metrics: { growth: [0, 35] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "늦은 밤 귀가한 당신에게 배우자가 걱정 어린 목소리로 말합니다. \"당신 때문에 경기가 나빠졌다는 사람들이 많아요. 괜찮겠어요?\" 한편 고등학생 딸은 \"아빠 친구 아빠가 회사 망해서 이사 간대요\"라며 안타까워합니다.",
+    left: {
+      text: "\"내 정책이 맞다\" 강하게 주장한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "가족 분위기가 경직되었습니다."
+    },
+    right: {
+      text: "\"힘들지만 필요한 일이야\" 조용히 설명한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "가족의 이해를 얻었습니다."
+    }
+  },
+
+  // C-052: 북한 리스크 – 지정학적 긴장
+  {
+    id: 'C-052',
+    deck: 'CRISIS',
+    weight: 60,
+    cooldown: 15,
+    tags: ['geopolitics', 'crisis'],
+    conditions: {
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "북한이 갑자기 미사일 발사 실험을 재개하며 한반도 긴장이 고조되었습니다. 외국인 투자자들이 한국 자산을 매도하기 시작하고 원화 가치가 급락합니다. 안보 불안이 경제에 직격탄을 날리는 상황입니다.",
+    left: {
+      text: "외환시장 개입으로 원화 방어에 나선다",
+      diff: { infl: 0, growth: 0, stability: -2, trust: 0 },
+      narrative: "외환보유고가 감소했지만 환율 급등을 막았습니다."
+    },
+    right: {
+      text: "시장 자율에 맡긴다. \"일시적 현상\"",
+      diff: { infl: 2, growth: 0, stability: 0, trust: -1 },
+      narrative: "수입물가 상승 압력과 불안감이 지속되었습니다."
+    }
+  },
+
+  // C-053: 국제유가 폭등 – 오일쇼크 재현?
+  {
+    id: 'C-053',
+    deck: 'CRISIS',
+    weight: 70,
+    cooldown: 15,
+    tags: ['commodity', 'inflation'],
+    conditions: {
+      metrics: { infl: [40, 100] },
+      turn: { min: 7 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "중동 정세 불안으로 국제유가가 배럴당 100달러를 돌파했습니다. 수입 의존도가 높은 한국 경제에 직격탄입니다. 주유소마다 기름값 폭등에 운전자들이 아우성이고, 물류비 상승으로 모든 물가가 연쇄 상승할 조짐입니다.",
+    left: {
+      text: "긴급 금리인상으로 인플레 차단",
+      diff: { infl: -3, growth: -4, stability: 0, trust: 1 },
+      narrative: "물가 억제 의지를 보였지만 경기가 급랭했습니다."
+    },
+    right: {
+      text: "정부 유류세 인하 등 대책에 맡긴다",
+      diff: { infl: 2, growth: 0, stability: 0, trust: -1 },
+      narrative: "인플레가 지속되고 통화정책 무력감이 생겼습니다."
+    }
+  },
+
+  // C-054: 기술주 거품 붕괴
+  {
+    id: 'C-054',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 12,
+    tags: ['market', 'bubble'],
+    conditions: {
+      metrics: { stability: [0, 45] },
+      turn: { min: 9 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "고금리 여파로 코스닥 기술주들이 폭락했습니다. 한때 \"미래 먹거리\"로 각광받던 바이오·IT 기업들의 주가가 반토막 났고, 개미투자자들의 손실이 눈덩이처럼 불어납니다. \"한은이 성장동력을 죽였다\"는 비난이 쏟아집니다.",
+    left: {
+      text: "시장 안정화 대책 촉구 (정부와 공조)",
+      diff: { infl: 0, growth: 0, stability: -1, trust: 0 },
+      narrative: "개입 논란이 있지만 민심을 달랬습니다."
+    },
+    right: {
+      text: "\"거품 조정은 불가피\" 원칙 고수",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "투자자 원성이 있지만 시장 건전성을 강조했습니다."
+    }
+  },
+
+  // C-055: 정부의 주택 공급 대책
+  {
+    id: 'C-055',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 10,
+    tags: ['real_estate', 'politics'],
+    conditions: {
+      metrics: { growth: [0, 50] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.PRESIDENT.name,
+    image: CHAR.PRESIDENT.img,
+    text: "정부가 주택 공급 확대 대책을 발표했습니다. 신도시 개발과 규제 완화로 집값을 잡겠다는 것입니다. 건설경기 부양 효과는 있지만 자산시장 과열 우려도 제기됩니다. 한은의 긴축 기조와 상충될 수 있는 정책입니다.",
+    left: {
+      text: "우려 표명. \"자산시장 과열 주시\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "정부와 미묘한 긴장이 생겼지만 원칙을 지켰습니다."
+    },
+    right: {
+      text: "환영 입장. \"공급 확대는 긍정적\"",
+      diff: { infl: 1, growth: 1, stability: 0, trust: 0 },
+      narrative: "정부와 협조했지만 자산가격 상승 압력이 생겼습니다."
+    }
+  },
+
+  // C-056: 한국은행 창립기념일
+  {
+    id: 'C-056',
+    deck: 'DAILY',
+    weight: 25,
+    cooldown: 999,
+    tags: ['ceremony', 'institutional'],
+    conditions: {
+      turn: { min: 12 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.MENTOR.name,
+    image: CHAR.MENTOR.img,
+    text: "한국은행 창립기념일 행사가 열렸습니다. 역대 총재들과 금융인들이 모인 자리에서 축사를 해야 합니다. 최근 정책 논란 속에서 어떤 메시지를 전할지 고민됩니다.",
+    left: {
+      text: "\"중앙은행 독립성\" 강조하는 원론적 연설",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "전문가들의 공감을 얻었습니다."
+    },
+    right: {
+      text: "\"국민과 함께\" 공감형 메시지",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "대중 친화적 이미지를 얻었습니다."
+    }
+  },
+
+  // C-057: 대출 이자 탕감 요구
+  {
+    id: 'C-057',
+    deck: 'DAILY',
+    weight: 45,
+    cooldown: 12,
+    tags: ['debt', 'politics'],
+    conditions: {
+      metrics: { growth: [0, 40] },
+      turn: { min: 9 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.POLITICIAN.name,
+    image: CHAR.POLITICIAN.img,
+    text: "일부 정치인들이 \"서민 대출 이자 탕감\" 법안을 추진하고 있습니다. 고금리로 고통받는 서민을 돕자는 취지지만, 금융시장 질서를 흔들 수 있다는 우려도 큽니다. 한은에도 의견을 묻습니다.",
+    left: {
+      text: "반대 입장. \"도덕적 해이 우려\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "원칙을 지켰지만 서민층 반발이 있었습니다."
+    },
+    right: {
+      text: "조건부 찬성. \"제한적 범위에서\"",
+      diff: { infl: 0, growth: 0, stability: -1, trust: 0 },
+      narrative: "정치권과 협조했지만 금융 질서 우려가 생겼습니다."
+    }
+  },
+
+  // C-058: 금통위 내부 의견차
+  {
+    id: 'C-058',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 10,
+    tags: ['internal', 'mpc'],
+    conditions: {
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.MPC,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "금융통화위원회 내부에서 의견이 갈립니다. 일부 위원은 \"더 강한 긴축\"을, 다른 위원은 \"경기 배려\"를 주장합니다. 회의록이 언론에 흘러나가며 \"한은 내분설\"이 보도됩니다. 총재로서 통합된 메시지를 내야 합니다.",
+    left: {
+      text: "\"다양한 의견은 자연스럽다\" 포용적 태도",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "민주적 절차를 강조했습니다."
+    },
+    right: {
+      text: "\"최종 결정은 총재\" 리더십 강조",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "권위적이라는 비판이 있었습니다."
+    }
+  },
+
+  // C-059: 커뮤니케이션 실수
+  {
+    id: 'C-059',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 10,
+    tags: ['communication', 'media'],
+    conditions: {
+      turn: { min: 7 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "기자회견에서 당신이 한 발언이 오해를 불렀습니다. \"물가 상승은 일시적\"이라는 말이 \"한은이 안일하다\"는 비판으로 확대 재생산되었습니다. 언론은 연일 당신의 발언을 문제 삼으며 \"말 바꾸기\"라고 공격합니다.",
+    left: {
+      text: "해명 기자회견을 긴급 소집한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -1 },
+      narrative: "변명으로 비쳤지만 오해는 일부 해소되었습니다."
+    },
+    right: {
+      text: "침묵으로 일관하며 시간이 해결하길 기다린다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "논란이 지속되었습니다."
+    }
+  },
+
+  // C-060: "한국은 미 연준 따라쟁이?" – 비교 논란
+  {
+    id: 'C-060',
+    deck: 'DAILY',
+    weight: 35,
+    cooldown: 10,
+    tags: ['global', 'criticism'],
+    conditions: {
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "일부 언론이 \"한국은행은 미 연준 정책만 따라한다\"며 비판했습니다. 실제로 미국 금리 인상 직후 한국도 비슷한 결정을 내린 적이 있어 설득력이 있습니다. \"주체적 통화정책이 없다\"는 지적에 당신은 어떻게 대응할까요?",
+    left: {
+      text: "\"글로벌 공조는 필요하다\" 정당성 강조",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "합리적 설명으로 받아들여졌습니다."
+    },
+    right: {
+      text: "\"한국 상황 우선\" 독자 노선 강조",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "독립성 이미지를 강화했습니다."
+    }
+  },
+
+  // C-061: 달러화 선호 현상 – "달러 사재기"
+  {
+    id: 'C-061',
+    deck: 'DAILY',
+    weight: 45,
+    cooldown: 12,
+    tags: ['forex', 'crisis'],
+    conditions: {
+      metrics: { stability: [0, 45] },
+      turn: { min: 9 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "경제 불안이 커지자 시민들이 은행에 몰려 달러를 사들이고 있습니다. \"원화 가치 하락\" 우려에 외화 예금이 급증하고, 환전소마다 달러가 동납니다. 원화 신뢰 추락의 신호탄일 수 있습니다.",
+    left: {
+      text: "외환시장 개입으로 원화 방어",
+      diff: { infl: 0, growth: 0, stability: -2, trust: 0 },
+      narrative: "외환보유고가 감소했지만 환율을 안정시켰습니다."
+    },
+    right: {
+      text: "\"과도한 불안\" 진정 메시지 발신",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "일부 안심시켰지만 사재기는 지속되었습니다."
+    }
+  },
+
+  // C-062: 해외자금 귀환 – 반가운 소식
+  {
+    id: 'C-062',
+    deck: 'DAILY',
+    weight: 30,
+    cooldown: 15,
+    tags: ['forex', 'positive'],
+    conditions: {
+      metrics: { trust: [55, 100] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "당신의 정책이 국제적으로 평가받으며 외국인 투자자금이 한국으로 유입되고 있습니다. 원화 가치가 상승하고 외환보유고도 늘었습니다. 긍정적 신호지만 과도한 원화 강세는 수출에 부담이 될 수 있습니다.",
+    left: {
+      text: "환율 안정화 개입 (원화 강세 억제)",
+      diff: { infl: 0, growth: 1, stability: 0, trust: 0 },
+      narrative: "수출 경쟁력을 방어했습니다."
+    },
+    right: {
+      text: "시장에 맡긴다. \"자연스러운 흐름\"",
+      diff: { infl: -1, growth: 0, stability: 0, trust: 1 },
+      narrative: "수입물가가 하락하고 시장 신뢰를 얻었습니다."
+    }
+  },
+
+  // C-063: 원화 약세의 반사이익
+  {
+    id: 'C-063',
+    deck: 'DAILY',
+    weight: 35,
+    cooldown: 12,
+    tags: ['forex', 'export'],
+    conditions: {
+      metrics: { growth: [0, 45] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "원화 약세로 수출기업들이 호황을 누리고 있습니다. 삼성, 현대 등 대기업들의 실적이 개선되며 \"환율 효과\"라는 긍정 평가가 나옵니다. 하지만 수입물가 상승으로 서민 생활비는 늘어나는 딜레마입니다.",
+    left: {
+      text: "\"균형 잡힌 환율\" 강조하며 개입 시사",
+      diff: { infl: 1, growth: 0, stability: 0, trust: 0 },
+      narrative: "수입물가 부담을 고려했습니다."
+    },
+    right: {
+      text: "\"수출 경쟁력 강화\" 긍정 평가",
+      diff: { infl: 0, growth: 2, stability: 0, trust: 0 },
+      narrative: "성장 모멘텀을 지지했습니다."
+    }
+  },
+
+  // C-064: 식량물가 폭등 – 밥상 위기
+  {
+    id: 'C-064',
+    deck: 'CRISIS',
+    weight: 65,
+    cooldown: 15,
+    tags: ['inflation', 'food'],
+    conditions: {
+      metrics: { infl: [60, 100] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "기후변화와 국제 곡물가 급등으로 쌀, 밀, 채소 가격이 폭등했습니다. \"밥상물가 비상\"이라는 뉴스가 연일 보도되고, 서민들은 장바구니를 들기가 두렵다고 합니다. 생필품 인플레는 정치적으로도 매우 민감한 사안입니다.",
+    left: {
+      text: "정부 비축미 방출 등 대책 촉구",
+      diff: { infl: -1, growth: 0, stability: 0, trust: 0 },
+      narrative: "단기 물가를 안정시켰습니다."
+    },
+    right: {
+      text: "금리정책으로 대응. \"근본 해결 필요\"",
+      diff: { infl: 0, growth: -2, stability: 0, trust: 1 },
+      narrative: "원칙을 지켰지만 경기가 위축되었습니다."
+    }
+  },
+
+  // C-065: 한국은행 경제교실 – 소통 노력
+  {
+    id: 'C-065',
+    deck: 'DAILY',
+    weight: 25,
+    cooldown: 999,
+    tags: ['education', 'communication'],
+    conditions: {
+      turn: { min: 12 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "한국은행이 일반 시민을 대상으로 경제교실을 열었습니다. \"중앙은행이 하는 일\"을 쉽게 설명하며 소통하려는 시도입니다. 당신도 강연자로 나설 기회가 있습니다.",
+    left: {
+      text: "직접 나서서 쉬운 언어로 설명한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "대중 친화적 이미지를 얻었습니다."
+    },
+    right: {
+      text: "전문가에게 맡기고 뒤에서 지원",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "무난하게 진행되었습니다."
+    }
+  },
+
+  // C-066: 수에즈 운하 사태 – 공급망 충격
+  {
+    id: 'C-066',
+    deck: 'CRISIS',
+    weight: 60,
+    cooldown: 999,
+    tags: ['supply_chain', 'global'],
+    conditions: {
+      turn: { min: 9 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "수에즈 운하에서 대형 컨테이너선이 좌초되며 글로벌 물류대란이 발생했습니다. 한국 수출입 화물도 지연되며 공급망 차질이 우려됩니다. 물류비 폭등과 생산 차질로 인플레 압력이 가중될 수 있습니다.",
+    left: {
+      text: "정부와 공조해 긴급 물류 대책 지원",
+      diff: { infl: 0, growth: 0, stability: -1, trust: 0 },
+      narrative: "위기 대응을 시도했지만 비용이 증가했습니다."
+    },
+    right: {
+      text: "\"일시적 현상\" 관망하며 금리정책 유지",
+      diff: { infl: 1, growth: 0, stability: 0, trust: 0 },
+      narrative: "물류비 상승이 물가에 반영되었습니다."
+    }
+  },
+
+  // C-067: 예금 금리 10% 시대
+  {
+    id: 'C-067',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 15,
+    tags: ['interest', 'savings'],
+    conditions: {
+      metrics: { infl: [70, 100] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "고금리 기조가 지속되며 일부 은행의 정기예금 금리가 연 10%에 육박했습니다. 예금자들은 환호하지만 대출자들은 이자 부담에 신음합니다. \"금리 양극화\"라는 새로운 사회 문제가 대두됩니다.",
+    left: {
+      text: "금리 격차 완화 유도 (은행권 권고)",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "시장 개입 논란이 있었습니다."
+    },
+    right: {
+      text: "\"시장 원리\" 존중하며 불개입",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "원칙을 지켰지만 양극화가 심화되었습니다."
+    }
+  },
+
+  // C-068: 인플레이션 타깃 상향 논의
+  {
+    id: 'C-068',
+    deck: 'DAILY',
+    weight: 45,
+    cooldown: 999,
+    tags: ['policy', 'target'],
+    conditions: {
+      metrics: { infl: [65, 100] },
+      turn: { min: 14 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.MENTOR.name,
+    image: CHAR.MENTOR.img,
+    text: "일부 경제학자들이 \"물가목표치를 2%에서 3%로 상향 조정하자\"고 제안했습니다. 현실적으로 2% 달성이 어렵고, 목표를 높이면 정책 부담이 줄어든다는 논리입니다. 하지만 \"물가 포기\"라는 비판도 만만치 않습니다.",
+    left: {
+      text: "반대. \"2% 목표 고수가 신뢰의 기반\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "원칙주의를 평가받았습니다."
+    },
+    right: {
+      text: "검토 의사. \"유연한 접근 필요\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "물가 포기 의혹을 받았습니다."
+    }
+  },
+
+  // C-069: 소비자 기대심리 급락
+  {
+    id: 'C-069',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 10,
+    tags: ['sentiment', 'consumer'],
+    conditions: {
+      metrics: { growth: [0, 35] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "소비자심리지수가 사상 최저치를 기록했습니다. 사람들은 지갑을 닫고 소비를 줄이며 \"불황 장기화\" 우려를 키웁니다. 심리 위축이 실물경제를 더 악화시키는 악순환이 우려됩니다.",
+    left: {
+      text: "완화 신호 발신. \"경기 회복 지원\"",
+      diff: { infl: 0, growth: 1, stability: 0, trust: -1 },
+      narrative: "기대심리가 소폭 개선되었지만 일관성 의문이 생겼습니다."
+    },
+    right: {
+      text: "\"경제 펀더멘털은 견고\" 안심 메시지",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "설득력이 부족했습니다."
+    }
+  },
+
+  // C-070: 전산 시스템 장애 – 한은 마비 사태
+  {
+    id: 'C-070',
+    deck: 'CRISIS',
+    weight: 80,
+    cooldown: 999,
+    tags: ['crisis', 'operational'],
+    conditions: {
+      turn: { min: 12 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "한국은행 전산 시스템에 대규모 장애가 발생했습니다. 금융결제망이 몇 시간 동안 마비되며 전국 은행 거래가 중단되었습니다. 사이버 공격 의혹도 제기되며 \"금융안보\" 문제로 비화됩니다. 총재로서 긴급 대응이 필요합니다.",
+    left: {
+      text: "즉각 사과 및 재발방지 약속",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "책임을 인정했지만 신뢰가 타격을 입었습니다."
+    },
+    right: {
+      text: "원인 규명 후 발표. \"조사 중\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -3 },
+      narrative: "늑장 대응 비판을 받았습니다."
+    }
+  },
+
   // ===== PHASE A+: SIDE EVENTS =====
 
 
