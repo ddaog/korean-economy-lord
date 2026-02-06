@@ -804,7 +804,388 @@ export const EVENTS = [
     }
   },
 
+  // ===== PHASE A+: SATIRICAL SIDE EVENTS (C-037~C-050) =====
+
+  // C-037: 대기업 회장의 요청 – "금리 좀 낮춰주세요"
+  {
+    id: 'C-037',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 15,
+    tags: ['chaebol', 'lobbying'],
+    conditions: {
+      metrics: { growth: [0, 50] },
+      turn: { min: 5 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "한 재벌 그룹 회장이 비공식 만남을 요청해왔습니다. 그는 \"환율도 안정되고 있으니 금리 좀 내려 기업활동을 도와달라\"고 읍소합니다. 수출기업들은 원화 강세와 고금리로 채산성이 악화되었다며 로비를 강화하고 있습니다.",
+    left: {
+      text: "유연한 태도. 기업대출 금리인하 등 우회 지원책 모색",
+      diff: { infl: 0, growth: 2, stability: -1, trust: -1 },
+      narrative: "기업 활력을 도모했지만 부채 증가 소지와 원칙 후퇴 지적이 있었습니다."
+    },
+    right: {
+      text: "원칙 고수. \"물가안정이 먼저입니다\"",
+      diff: { infl: 0, growth: -1, stability: 0, trust: 2 },
+      narrative: "소신에 대한 신뢰를 얻었지만 기업 투자 위축 우려가 있습니다."
+    }
+  },
+
+  // C-038: 뜻밖의 부도 – "레고랜드 사태"
+  {
+    id: 'C-038',
+    deck: 'CRISIS',
+    weight: 70,
+    cooldown: 999,
+    tags: ['crisis', 'real_estate', 'local_gov'],
+    conditions: {
+      metrics: { stability: [0, 40] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.CHAEBOL.name,
+    image: CHAR.CHAEBOL.img,
+    text: "강원도의 한 지방공사가 추진하던 레고랜드 테마파크 사업이 자금난으로 채무 불이행을 선언했습니다. '레고랜드 사태'로 불린 이 사건은 국내 채권시장에 충격을 주며 회사채 금리 폭등과 자금 경색을 불렀습니다. 지방정부의 모럴해저드까지 겹쳐 신용경색 우려가 커집니다.",
+    left: {
+      text: "시장 자율 – 정부와 기업에 맡기고 한발 물러선다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "대응 부족 평가와 시장 불안이 지속되었습니다."
+    },
+    right: {
+      text: "한은 개입 – 채권시장안정펀드 등 긴급조치",
+      diff: { infl: 0, growth: 0, stability: -2, trust: 1 },
+      narrative: "위기대응 호평을 받았지만 중앙은행 재정 부담이 증가했습니다."
+    }
+  },
+
+  // C-039: "이자 좀 주세요" – 은퇴자들의 분노
+  {
+    id: 'C-039',
+    deck: 'DAILY',
+    weight: 45,
+    cooldown: 12,
+    tags: ['inflation', 'elderly'],
+    conditions: {
+      metrics: { infl: [60, 100] },
+      turn: { min: 6 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "물가는 오르고 예금 금리는 따라가지 못하자, 은퇴자들이 청와대 앞에 모였습니다. \"30년 저축했더니 휴지조각\"이라며, 한 노인은 폭등한 밥상물가 영수증을 흔듭니다. 연금 생활자들의 실질 소득이 급감하면서 언론에서는 \"은퇴자 빈곤, 한국은행 책임\" 기사가 나옵니다.",
+    left: {
+      text: "정부와 공조해 노인 지원대책 마련",
+      diff: { infl: 0, growth: 0, stability: -1, trust: 0 },
+      narrative: "정책 노력을 평가받았지만 재정 부담이 증가했습니다."
+    },
+    right: {
+      text: "정책 사과와 함께 물가안정 의지를 거듭 밝힌다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "동정 여론이 일부 호전되었습니다."
+    }
+  },
+
+  // C-040: "임금 인상 파업" – 노조의 최후통첩
+  {
+    id: 'C-040',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 12,
+    tags: ['labor', 'inflation'],
+    conditions: {
+      metrics: { infl: [65, 100] },
+      turn: { min: 7 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.UNION.name,
+    image: CHAR.UNION.img,
+    text: "물가 폭등으로 실질임금이 줄자 주요 산별노조들이 공동 총파업을 예고했습니다. 그들은 \"임금 최소 10% 인상\"을 요구하며, 임금-물가 악순환이 현실화될 조짐입니다. 정부는 노조에 자제를 요청하지만 노동계는 물러설 생각이 없습니다.",
+    left: {
+      text: "중재 노력 – 노정 대화를 촉구하며 한발 물러선다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -1 },
+      narrative: "미온적 대응 비판을 받았지만 갈등 완화 기대가 생겼습니다."
+    },
+    right: {
+      text: "강경 입장 – \"임금과 물가 연동은 위험\"이라며 공개 경고",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "물가안정 의지를 피력했지만 노동계 반발이 있었습니다."
+    }
+  },
+
+  // C-041: 디플레이션의 그림자
+  {
+    id: 'C-041',
+    deck: 'CRISIS',
+    weight: 65,
+    cooldown: 15,
+    tags: ['deflation', 'crisis'],
+    conditions: {
+      metrics: { infl: [0, 30], growth: [0, 25] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "지속된 고금리로 경기가 꽁꽁 얼어붙자, 이번엔 물가가 하락하기 시작했습니다. \"디플레이션 우려\"라는 말이 나오며 소비자들이 지갑을 닫고 있습니다. 기업들은 재고를 떠안고 투자를 더 줄였습니다. \"일본식 장기불황 오는가\" 언론에서 난리지만, 일부는 \"물가 안정 성과\"라고 평가하기도 합니다.",
+    left: {
+      text: "방향 전환 모색. \"필요시 완화 전환 검토\"",
+      diff: { infl: 0, growth: 1, stability: 0, trust: -1 },
+      narrative: "시장 기대가 소폭 생겼지만 정책 일관성에 의구심이 생겼습니다."
+    },
+    right: {
+      text: "신중 기조 유지. \"아직 성급한 완화는 이르다\"",
+      diff: { infl: -2, growth: -3, stability: 0, trust: 1 },
+      narrative: "물가가 더 하락하고 침체가 심화되었지만 원칙 고수를 평가받았습니다."
+    }
+  },
+
+  // C-042: 유류세 인하 – 정부의 물가잡기 묘수?
+  {
+    id: 'C-042',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 10,
+    tags: ['inflation', 'politics'],
+    conditions: {
+      metrics: { infl: [55, 100] },
+      turn: { min: 6 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.PRESIDENT.name,
+    image: CHAR.PRESIDENT.img,
+    text: "치솟는 물가에 정부가 유류세 한시 인하 카드를 꺼냈습니다. 기름값이 워낙 올라 민심이 흉흉해지자 세금을 내려 가격을 낮추겠다는 취지입니다. 단기적으로 체감 물가를 낮출 순 있지만 재정 부담이 크고 본질적 해결은 아니라는 지적도 있습니다.",
+    left: {
+      text: "신중 입장. \"근본대책은 아니다\"라고 우회 비판",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "전문성 이미지를 얻었지만 미묘한 갈등이 생겼습니다."
+    },
+    right: {
+      text: "환영 입장. \"서민 부담 경감에 도움 될 것\"",
+      diff: { infl: -1, growth: 0, stability: 0, trust: 0 },
+      narrative: "정부와 협조하고 단기 물가가 안정되었습니다."
+    }
+  },
+
+  // C-043: 국제적 찬사 – "올해의 중앙은행 총재"
+  {
+    id: 'C-043',
+    deck: 'DAILY',
+    weight: 30,
+    cooldown: 999,
+    tags: ['award', 'global'],
+    conditions: {
+      metrics: { trust: [60, 100] },
+      turn: { min: 12 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "경제 전문지로부터 편지가 도착했습니다. 당신이 \"올해의 중앙은행장상\" 수상자로 선정되었다는 소식입니다. 어려운 상황 속에서 정책을 운영한 노력을 국제적으로 인정받은 것입니다. 국내에서는 체감하기 어렵지만, 대외 신뢰도는 높다는 뜻이기도 합니다.",
+    left: {
+      text: "수상을 고사하고 조용히 넘어간다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "겸손한 태도에 호감을 얻었습니다."
+    },
+    right: {
+      text: "겸손하게 수상. \"국민 덕분\"이라며 공을 돌린다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "국제신인도가 향상되고 국민 자부심이 약간 상승했습니다."
+    }
+  },
+
+  // C-044: 디지털 화폐 시대 – CBDC 도입 시도
+  {
+    id: 'C-044',
+    deck: 'DAILY',
+    weight: 35,
+    cooldown: 999,
+    tags: ['cbdc', 'innovation'],
+    conditions: {
+      metrics: { stability: [50, 100] },
+      turn: { min: 15 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "한국은행 내 젊은 직원들을 중심으로 CBDC(중앙은행 디지털화폐) 도입 논의가 한창입니다. \"디지털 원화\" 파일럿 결과가 긍정적이어서, 이제 총재의 결단만 남았습니다. 보수적인 간부들은 신중론을 펼치며 \"금융안정 해칠 수 있다\"고 우려합니다.",
+    left: {
+      text: "도입 보류, 연구를 이어간다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "신중함에 안도했지만 혁신 지연 평가를 받았습니다."
+    },
+    right: {
+      text: "CBDC 도입 추진을 선언한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -1 },
+      narrative: "혁신국 이미지를 얻었지만 은행권 우려가 있었습니다."
+    }
+  },
+
+  // C-045: "김치코인 대폭락" – 눈물의 개미투자자들
+  {
+    id: 'C-045',
+    deck: 'DAILY',
+    weight: 50,
+    cooldown: 12,
+    tags: ['crypto', 'market'],
+    conditions: {
+      metrics: { stability: [0, 50] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "한때 광풍이었던 가상화폐 시장이 금리 인상 이후 거품이 꺼졌습니다. 국내 토종코인인 \"김치코인\"이 90% 폭락하며, 빚내서 투자했던 청년들이 큰 손실을 봤습니다. 일부는 한은의 급격한 금리인상을 원망하며 \"우리 미래를 망쳤다\"고 분통을 터뜨립니다.",
+    left: {
+      text: "정부와 함께 피해 지원책을 검토한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "청년층을 달랬지만 투기 개입 비판을 받았습니다."
+    },
+    right: {
+      text: "투자 경고 메시지를 다시 강조한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "원칙적 태도를 유지했지만 청년층 불만이 있었습니다."
+    }
+  },
+
+  // C-046: 풍자의 표적 – 신문 만평
+  {
+    id: 'C-046',
+    deck: 'DAILY',
+    weight: 35,
+    cooldown: 10,
+    tags: ['media', 'satire'],
+    conditions: {
+      metrics: { trust: [0, 40] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "한 신문의 시사 만평에 당신이 그려졌습니다. 그림 속 당신은 난로에 불을 지피는 아궁이처럼 돈을 태우거나, 혹은 물가 괴물에게 쫓겨 달아나는 모습입니다. 시민들은 웃프다는 반응을 보입니다. 중앙은행 총재로서 대중의 조롱거리가 된 상황에 씁쓸함이 밀려옵니다.",
+    left: {
+      text: "민감하게 반응. 언론에 유감 표명을 검토",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -1 },
+      narrative: "소심하다는 평가를 받았습니다."
+    },
+    right: {
+      text: "유머로 넘긴다. \"쓴소리도 경청하겠다\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 2 },
+      narrative: "인간적 면모를 보였습니다."
+    }
+  },
+
+  // C-047: 경제학자들의 공개비판
+  {
+    id: 'C-047',
+    deck: 'CRISIS',
+    weight: 60,
+    cooldown: 15,
+    tags: ['criticism', 'experts'],
+    conditions: {
+      metrics: { trust: [0, 35] },
+      turn: { min: 12 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "저명한 경제학자 20여 명이 공동 성명을 냈습니다. \"한국은행 총재의 정책 실책을 지적한다\"는 제목으로, 당신의 대응이 적기적절하지 못했다는 날 선 비판입니다. 방송 토론에서도 전문가들이 연일 한은을 성토합니다. 동료 중앙은행장들마저 우려를 표하고 있습니다.",
+    left: {
+      text: "강하게 반박하며 자신의 소신을 옹호",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -2 },
+      narrative: "아집 비판과 정부 불편이 있었습니다."
+    },
+    right: {
+      text: "겸허히 수용하고 정책 개선 의지를 밝힌다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "소통 노력을 평가받고 정책 협조 기대가 생겼습니다."
+    }
+  },
+
+  // C-048: "한은법 개정" 추진 소동
+  {
+    id: 'C-048',
+    deck: 'CRISIS',
+    weight: 75,
+    cooldown: 999,
+    tags: ['politics', 'independence', 'crisis'],
+    conditions: {
+      metrics: { trust: [0, 30] },
+      turn: { min: 15 }
+    },
+    type: EVENT_TYPES.URGENT,
+    character: CHAR.POLITICIAN.name,
+    image: CHAR.POLITICIAN.img,
+    text: "일부 여당 의원들이 한국은행법 개정안을 발의했습니다. \"물가안정 외에 고용안정도 목표에 포함\"한다는 내용입니다. 사실상 중앙은행 독립성을 약화시키려는 시도로 받아들여집니다. 경제신문 사설들은 이에 반발하며 \"중앙은행 길들이기\"라고 비판합니다.",
+    left: {
+      text: "조용히 물밑대응. 정부 설득과 여론전",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 1 },
+      narrative: "갈등을 최소화하고 은근한 지지가 확산되었습니다."
+    },
+    right: {
+      text: "공개 반대 입장. \"중앙은행 독립성은 훼손될 수 없다\"",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 3 },
+      narrative: "전문성에 대한 지지를 얻었지만 여권 반발이 있었습니다."
+    }
+  },
+
+  // C-049: "금리 동결 축하 파티?" – 언론의 빈정댐
+  {
+    id: 'C-049',
+    deck: 'DAILY',
+    weight: 40,
+    cooldown: 10,
+    tags: ['media', 'satire'],
+    conditions: {
+      metrics: { infl: [65, 100] },
+      turn: { min: 8 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.REPORTER.name,
+    image: CHAR.REPORTER.img,
+    text: "일부 언론이 당신을 향해 비꼬는 기사를 냈습니다. \"저금리 파티의 후유증, 총재는 즐거웠나\" 등의 제목으로, 초기 완화정책을 풍자한 것입니다. 당신의 이전 발언들을 끄집어내어 \"낙관론을 펴더니 결국 상황 악화\"라고 꼬집습니다.",
+    left: {
+      text: "해명자료 배포 등 적극 반박",
+      diff: { infl: 0, growth: 0, stability: 0, trust: -1 },
+      narrative: "변명으로 비쳤지만 소속 조직 사기는 유지되었습니다."
+    },
+    right: {
+      text: "억울하지만 침묵한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "시간이 해결할 것입니다."
+    }
+  },
+
+  // C-050: 가족의 한마디 (완화 경로)
+  {
+    id: 'C-050',
+    deck: 'DAILY',
+    weight: 30,
+    cooldown: 999,
+    tags: ['family', 'personal'],
+    conditions: {
+      metrics: { infl: [60, 100] },
+      turn: { min: 10 }
+    },
+    type: EVENT_TYPES.GENERAL,
+    character: CHAR.ANT.name,
+    image: CHAR.ANT.img,
+    text: "늦은 밤 집에 들어간 당신에게 배우자가 푸념합니다. \"마트 장보기가 무서워요. 물가 좀 어떻게 해봐요\"라며 한숨을 쉽니다. 한편 대학생 아들은 \"등록금 대출이자 너무 올라서 힘들다\"고 투덜댑니다. 가족들마저 당신의 정책으로 직접적 타격을 받고 있습니다.",
+    left: {
+      text: "\"나도 힘들어\" 투정을 부리듯 하소연",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "분위기가 악화되었습니다."
+    },
+    right: {
+      text: "\"미안하다\" 진심으로 사과하고 이해를 구한다",
+      diff: { infl: 0, growth: 0, stability: 0, trust: 0 },
+      narrative: "심리적 안도를 얻었습니다."
+    }
+  },
+
   // ===== PHASE A+: SIDE EVENTS =====
+
 
   // S-001: 재벌 로비
   {
