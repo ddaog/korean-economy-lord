@@ -12,24 +12,32 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
     const rotate = useTransform(x, [-200, 200], [-10, 10]);
 
     // Opacity of overlays
-    const leftOpacity = useTransform(x, [100, 150], [0, 1]); // Dragging RIGHT shows Left Option? No.
     // Wait.
     // Drag Right (>0) -> Choosing the RIGHT option provided in data.
     // Drag Left (<0) -> Choosing the LEFT option provided in data.
     // Why? "Swipe Right" usually means "Yes" or the "Right" choice visually.
 
-    const rightTagOpacity = useTransform(x, [20, 100], [0, 1]); // Dragging Right -> Show Right Choice Tag FASTER
-    const leftTagOpacity = useTransform(x, [-20, -100], [0, 1]); // Dragging Left -> Show Left Choice Tag FASTER
+    // Opacity: Instant feedback (starts at 10px, full at 60px)
+    const rightTagOpacity = useTransform(x, [10, 60], [0, 1]);
+    const leftTagOpacity = useTransform(x, [-10, -60], [0, 1]);
+
+    // Scale: Pop effect (starts 0.8, pops to 1.1)
+    const rightTagScale = useTransform(x, [10, 60], [0.8, 1.1]);
+    const leftTagScale = useTransform(x, [-10, -60], [0.8, 1.1]);
+
+    // Rotation: Slight tilt for dynamic feel
+    const rightTagRotate = useTransform(x, [0, 100], [-5, 0]);
+    const leftTagRotate = useTransform(x, [0, -100], [5, 0]);
 
     // Background color change for feedback
-    const boxColor = useTransform(x, [-100, 0, 100], ['#fca5a5', '#ffffff', '#86efac']);
+    const boxColor = useTransform(x, [-100, 0, 100], ['#ffeaa7', '#ffffff', '#55efc4']); // Softer pastel transition
 
     useEffect(() => {
         const unsubscribe = x.onChange((v) => {
             // Update preview stats in parent
-            if (v > 20) {
+            if (v > 10) {
                 updatePreview('right'); // Dragging Right
-            } else if (v < -20) {
+            } else if (v < -10) {
                 updatePreview('left'); // Dragging Left
             } else {
                 updatePreview(null);
@@ -96,12 +104,18 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                 </div>
 
                 {/* Overlays for choices */}
-                <motion.div className={styles.choiceTag} style={{ opacity: rightTagOpacity, left: 20, transform: 'rotate(-10deg)', color: '#fff', backgroundColor: '#10b981', borderColor: '#10b981' }}>
-                    ✅ {card.right.text}
+                <motion.div
+                    className={`${styles.choiceTag} ${styles.choiceRight}`}
+                    style={{ opacity: rightTagOpacity, scale: rightTagScale, rotate: rightTagRotate }}
+                >
+                    <span className={styles.emoji}>✅</span> {card.right.text}
                 </motion.div>
 
-                <motion.div className={styles.choiceTag} style={{ opacity: leftTagOpacity, right: 20, transform: 'rotate(10deg)', color: '#fff', backgroundColor: '#ef4444', borderColor: '#ef4444' }}>
-                    ❌ {card.left.text}
+                <motion.div
+                    className={`${styles.choiceTag} ${styles.choiceLeft}`}
+                    style={{ opacity: leftTagOpacity, scale: leftTagScale, rotate: leftTagRotate }}
+                >
+                    <span className={styles.emoji}>❌</span> {card.left.text}
                 </motion.div>
 
             </motion.div>

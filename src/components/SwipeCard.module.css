@@ -91,23 +91,46 @@
 
 .choiceTag {
     position: absolute;
-    top: 40px;
-    padding: 14px 28px;
-    border: 4px solid;
-    border-radius: 40px;
-    /* More rounded for pill shape */
-    font-weight: 900;
-    font-size: 1.8rem;
-    /* Larger */
+    top: 50px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.5rem;
     text-transform: uppercase;
     pointer-events: none;
-    color: white;
-    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 0, 0, 0.1);
-    /* Deeper shadow */
-    transform: rotate(-5deg);
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    /* Text shadow for pop */
+    color: #fff;
+    /* 3D Sticker Look */
+    box-shadow:
+        0 6px 0 rgba(0, 0, 0, 0.15),
+        /* Hard bottom shadow for 3D */
+        0 15px 20px rgba(0, 0, 0, 0.15),
+        /* Soft drop shadow */
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    /* Top highlight */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    white-space: nowrap;
+}
+
+.choiceRight {
+    left: 20px;
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    transform-origin: left center;
+}
+
+.choiceLeft {
+    right: 20px;
+    background: linear-gradient(135deg, #ff7675, #d63031);
+    transform-origin: right center;
+}
+
+.emoji {
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.1));
+    font-size: 1.6rem;
 }
 
 .meetingBadge {
