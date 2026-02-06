@@ -1,11 +1,11 @@
-import imgPresident from '../assets/korean_db_president_1770344680843.png';
-import imgChaebol from '../assets/korean_db_chaebol_1770344695294.png';
-import imgAnt from '../assets/korean_db_ant_1770344711922.png';
-import imgForeign from '../assets/korean_db_foreign_1770344727449.png';
+import imgPresident from '../assets/clay_president_1770346924340.png';
+import imgChaebol from '../assets/clay_chaebol_1770346938273.png';
+import imgAnt from '../assets/clay_ant_investor_1770346965403.png';
+import imgForeign from '../assets/clay_foreign_investor_1770346980559.png';
 import imgMentor from '../assets/char_mentor_scholar_1770304939917.png'; // Keep mentor as "Ghost" for now
 import imgUnion from '../assets/korean_db_union_1770344816296.png'; // Updated to Korean Union Leader
 import imgPoliticianSlick from '../assets/korean_db_politician_1770344772080.png';
-import imgReporterFrantic from '../assets/korean_db_reporter_1770344755475.png';
+import imgReporterFrantic from '../assets/clay_reporter_1770347027963.png';
 import imgSME from '../assets/korean_db_sme_1770344788709.png'; // New SME asset
 
 // Character mapping for consistency
