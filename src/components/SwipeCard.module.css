@@ -91,7 +91,9 @@
 
 .choiceTag {
     position: absolute;
-    top: 50px;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 10px 20px;
     border-radius: 50px;
     font-weight: 800;
@@ -117,15 +119,11 @@
 }
 
 .choiceRight {
-    left: 20px;
     background: linear-gradient(135deg, #00b894, #00cec9);
-    transform-origin: left center;
 }
 
 .choiceLeft {
-    right: 20px;
     background: linear-gradient(135deg, #ff7675, #d63031);
-    transform-origin: right center;
 }
 
 .emoji {

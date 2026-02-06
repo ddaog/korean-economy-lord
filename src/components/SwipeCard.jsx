@@ -103,17 +103,17 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                     <p className={styles.cardText}>"{card.text}"</p>
                 </div>
 
-                {/* Overlays for choices */}
+                {/* Overlays for choices - Centered */}
                 <motion.div
                     className={`${styles.choiceTag} ${styles.choiceRight}`}
-                    style={{ opacity: rightTagOpacity, scale: rightTagScale, rotate: rightTagRotate }}
+                    style={{ opacity: rightTagOpacity, scale: rightTagScale }}
                 >
                     <span className={styles.emoji}>✅</span> {card.right.text}
                 </motion.div>
 
                 <motion.div
                     className={`${styles.choiceTag} ${styles.choiceLeft}`}
-                    style={{ opacity: leftTagOpacity, scale: leftTagScale, rotate: leftTagRotate }}
+                    style={{ opacity: leftTagOpacity, scale: leftTagScale }}
                 >
                     <span className={styles.emoji}>❌</span> {card.left.text}
                 </motion.div>
