@@ -5,14 +5,8 @@ import SwipeCard from './components/SwipeCard';
 import GameOverScreen from './components/GameOverScreen';
 import StartScreen from './components/StartScreen';
 import { EVENTS, EVENT_TYPES } from './data/events';
+import { INITIAL_STATS, STATS, checkGameOver } from './data/statConfig';
 import styles from './App.module.css';
-
-const INITIAL_STATS = {
-  stock: 50,
-  realEstate: 50,
-  approval: 50,
-  liquidity: 50
-};
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false);
@@ -103,17 +97,17 @@ function App() {
     if (!currentCard) return;
     if (direction === 'left') {
       setPreviewDeltas({
-        stock: currentCard.left.diff.stock || 0,
-        realEstate: currentCard.left.diff.realEstate || 0,
-        approval: currentCard.left.diff.approval || 0,
-        liquidity: currentCard.left.diff.liquidity || 0
+        infl: currentCard.left.diff.infl || 0,
+        growth: currentCard.left.diff.growth || 0,
+        stability: currentCard.left.diff.stability || 0,
+        trust: currentCard.left.diff.trust || 0
       });
     } else if (direction === 'right') {
       setPreviewDeltas({
-        stock: currentCard.right.diff.stock || 0,
-        realEstate: currentCard.right.diff.realEstate || 0,
-        approval: currentCard.right.diff.approval || 0,
-        liquidity: currentCard.right.diff.liquidity || 0
+        infl: currentCard.right.diff.infl || 0,
+        growth: currentCard.right.diff.growth || 0,
+        stability: currentCard.right.diff.stability || 0,
+        trust: currentCard.right.diff.trust || 0
       });
     } else {
       setPreviewDeltas({});
@@ -143,10 +137,10 @@ function App() {
 
   const getDeathMessage = (stat, type) => {
     const messages = {
-      stock: { min: "주식 시장 붕괴! 당신은 해임되었습니다.", max: "주식 시장 과열! 버블 붕괴로 경제가 파탄났습니다." },
-      realEstate: { min: "부동산 폭락! 자산가치가 증발하여 폭동이 일어났습니다.", max: "집값 폭등! 서민들이 죽창을 들고 일어났습니다." },
-      approval: { min: "지지율 바닥! 탄핵 소추안이 발의되었습니다.", max: "독재자 추대? 너무 높은 인기는 민주주의를 위협합니다." },
-      liquidity: { min: "국가 부도! 제2의 IMF 사태가 터졌습니다.", max: "초인플레이션! 돈이 휴지조각이 되었습니다." }
+      infl: { min: "디플레이션! 경제가 얼어붙었습니다.", max: "초인플레이션! 돈이 휴지조각이 되었습니다." },
+      growth: { min: "경제 붕괴! 대공황이 찾아왔습니다.", max: "경제 과열! 버블 붕괴로 모든 것이 무너졌습니다." },
+      stability: { min: "금융위기! 은행들이 연쇄 도산했습니다.", max: "자산 버블! 금융시스템이 붕괴했습니다." },
+      trust: { min: "신뢰 붕괴! 당신은 탄핵되었습니다.", max: "맹목적 신뢰! 독재자가 되었습니다." }
     };
     return messages[stat][type];
   };

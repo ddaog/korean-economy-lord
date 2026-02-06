@@ -29,15 +29,21 @@
 .iconWrapper {
   position: relative;
   z-index: 2;
-  color: #a4b0be;
   margin-bottom: 4px;
 }
 
-.icon {
-  width: 28px;
-  /* Slightly larger */
-  height: 28px;
+.iconEmoji {
+  font-size: 28px;
   filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.1));
+  display: block;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 4px;
+  text-align: center;
 }
 
 .barContainer {

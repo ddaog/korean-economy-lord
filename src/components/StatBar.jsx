@@ -1,9 +1,12 @@
 
 import React from 'react';
-import { TrendingUp, Building, Users, Coins } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, Shield } from 'lucide-react';
+import { STAT_CONFIG, STATS, getStatColor } from '../data/statConfig';
 import styles from './StatBar.module.css';
 
-const StatItem = ({ icon: Icon, value, label, previewDelta }) => {
+const StatItem = ({ statKey, value, previewDelta }) => {
+    const config = STAT_CONFIG[statKey];
+
     // Safe calculation for visual width (0-100)
     const safeValue = Math.max(0, Math.min(100, value));
 
@@ -18,10 +21,13 @@ const StatItem = ({ icon: Icon, value, label, previewDelta }) => {
         isNegative = previewDelta < 0;
     }
 
+    // Get color based on value
+    const barColor = getStatColor(statKey, safeValue);
+
     return (
         <div className={styles.statContainer}>
             <div className={styles.iconWrapper}>
-                <Icon size={24} className={styles.icon} />
+                <span className={styles.iconEmoji}>{config.icon}</span>
                 {previewDelta !== 0 && (
                     <div className={`${styles.indicator} ${isPositive ? styles.up : styles.down}`} />
                 )}
@@ -29,7 +35,7 @@ const StatItem = ({ icon: Icon, value, label, previewDelta }) => {
             <div className={styles.barContainer}>
                 <div
                     className={styles.barFill}
-                    style={{ height: `${safeValue}%` }}
+                    style={{ height: `${safeValue}%`, backgroundColor: barColor }}
                 />
                 {previewDelta !== 0 && (
                     <div
@@ -42,6 +48,7 @@ const StatItem = ({ icon: Icon, value, label, previewDelta }) => {
                     />
                 )}
             </div>
+            <div className={styles.statLabel}>{config.name}</div>
         </div>
     );
 };
@@ -50,28 +57,24 @@ const StatBar = ({ stats, previewDeltas }) => {
     return (
         <div className={styles.topBar}>
             <StatItem
-                icon={TrendingUp}
-                value={stats.stock}
-                label="KOSPI"
-                previewDelta={previewDeltas?.stock || 0}
+                statKey={STATS.INFL}
+                value={stats.infl}
+                previewDelta={previewDeltas?.infl || 0}
             />
             <StatItem
-                icon={Building}
-                value={stats.realEstate}
-                label="부동산"
-                previewDelta={previewDeltas?.realEstate || 0}
+                statKey={STATS.GROWTH}
+                value={stats.growth}
+                previewDelta={previewDeltas?.growth || 0}
             />
             <StatItem
-                icon={Users}
-                value={stats.approval}
-                label="지지율"
-                previewDelta={previewDeltas?.approval || 0}
+                statKey={STATS.STABILITY}
+                value={stats.stability}
+                previewDelta={previewDeltas?.stability || 0}
             />
             <StatItem
-                icon={Coins}
-                value={stats.liquidity}
-                label="유동성"
-                previewDelta={previewDeltas?.liquidity || 0}
+                statKey={STATS.TRUST}
+                value={stats.trust}
+                previewDelta={previewDeltas?.trust || 0}
             />
         </div>
     );
