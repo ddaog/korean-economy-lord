@@ -4,13 +4,15 @@ import StatBar from './components/StatBar';
 import SwipeCard from './components/SwipeCard';
 import GameOverScreen from './components/GameOverScreen';
 import StartScreen from './components/StartScreen';
-import { EVENTS, EVENT_TYPES } from './data/events';
+import { EVENTS, EVENT_TYPES, ENRICHED_EVENTS } from './data/events';
 import { INITIAL_STATS, STATS, checkGameOver } from './data/statConfig';
+import { GameState } from './data/gameState';
+import { selectNextCard, applyChoiceEffects } from './utils/cardSelector';
 import styles from './App.module.css';
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [stats, setStats] = useState(INITIAL_STATS);
+  const [gameState, setGameState] = useState(() => new GameState(INITIAL_STATS));
   const [currentCard, setCurrentCard] = useState(null);
   const [year, setYear] = useState(2025);
   const [month, setMonth] = useState(1);
@@ -115,7 +117,7 @@ function App() {
   };
 
   const applyEffects = (diff) => {
-    const newStats = { ...stats };
+    const newStats = { ...gameState.metrics };
     let causeOfDeath = null;
 
     Object.keys(newStats).forEach(key => {
@@ -131,7 +133,12 @@ function App() {
       }
     });
 
-    setStats(newStats);
+    // Update game state metrics
+    const newGameState = new GameState(newStats);
+    Object.assign(newGameState, gameState);
+    newGameState.metrics = newStats;
+    setGameState(newGameState);
+
     return causeOfDeath;
   };
 
@@ -192,14 +199,14 @@ function App() {
   };
 
   const restartGame = () => {
-    setStats(INITIAL_STATS);
+    setGameState(new GameState(INITIAL_STATS));
     setYear(2025);
     setMonth(1);
     setGameOver(null);
     setHistory([]);
     setFutureEventQueue([]);
     // Reset call needs empty history
-    pickNewCard([], [], 1, 2025);
+    pickNewCard([], [], new GameState(INITIAL_STATS));
   };
 
   if (!gameStarted) {
@@ -212,7 +219,7 @@ function App() {
 
   return (
     <div className={styles.appContainer}>
-      <StatBar stats={stats} previewDeltas={previewDeltas} />
+      <StatBar stats={gameState.metrics} previewDeltas={previewDeltas} />
 
       <div style={{ position: 'absolute', top: '150px', width: '100%', textAlign: 'center', zIndex: 10, color: '#636e72' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '700', margin: '0', padding: '8px 24px', display: 'inline-block', backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: '30px', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>{year}년 {month}월</h2>

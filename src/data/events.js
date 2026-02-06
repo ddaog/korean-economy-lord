@@ -35,6 +35,20 @@ export const EVENTS = [
   // ===== C-001: 취임 첫날 =====
   {
     id: 'C-001',
+    deck: 'CORE',
+    weight: 100,  // Always want this as first card
+    cooldown: 999, // Never repeat
+    tags: ['inauguration', 'media', 'first_day'],
+    conditions: {
+      metrics: {
+        infl: [0, 100],
+        growth: [0, 100],
+        stability: [0, 100],
+        trust: [0, 100]
+      },
+      turn: { min: 1, max: 1 }  // Only on turn 1
+    },
+
     act: 1,
     type: EVENT_TYPES.GENERAL,
     character: CHAR.REPORTER.name,
@@ -790,4 +804,65 @@ export const EVENTS = [
     }
   }
 ];
+
+// Helper function to enrich cards with default metadata
+function enrichCardWithMetadata(card) {
+  // If card already has deck, assume it's fully configured
+  if (card.deck) return card;
+
+  // Add default metadata
+  return {
+    ...card,
+    deck: 'CORE',  // Default to CORE deck
+    weight: 50,    // Default weight
+    cooldown: 6,   // Default cooldown
+    tags: inferTags(card),
+    conditions: {
+      metrics: {
+        infl: [0, 100],
+        growth: [0, 100],
+        stability: [0, 100],
+        trust: [0, 100]
+      }
+    }
+  };
+}
+
+// Infer tags from card content
+function inferTags(card) {
+  const tags = [];
+
+  // Infer from character
+  if (card.character) {
+    if (card.character.includes('기자')) tags.push('media');
+    if (card.character.includes('대통령')) tags.push('politics');
+    if (card.character.includes('재벌')) tags.push('chaebol');
+    if (card.character.includes('투자자')) tags.push('market');
+    if (card.character.includes('노조')) tags.push('labor');
+    if (card.character.includes('중소기업')) tags.push('sme');
+  }
+
+  // Infer from text content
+  const text = card.text?.toLowerCase() || '';
+  if (text.includes('물가') || text.includes('인플레')) tags.push('inflation');
+  if (text.includes('금리') || text.includes('금통위')) tags.push('interest_rate');
+  if (text.includes('부동산')) tags.push('real_estate');
+  if (text.includes('경기') || text.includes('성장')) tags.push('growth');
+  if (text.includes('금융') || text.includes('은행')) tags.push('stability');
+  if (text.includes('위기')) tags.push('crisis');
+
+  // Infer from type
+  if (card.type === EVENT_TYPES.MPC) tags.push('mpc');
+  if (card.type === EVENT_TYPES.FSM) tags.push('fsm');
+  if (card.type === EVENT_TYPES.URGENT) tags.push('urgent');
+
+  // Infer from endings
+  if (card.left?.isEnding || card.right?.isEnding) tags.push('ending');
+
+  return tags.length > 0 ? tags : ['general'];
+}
+
+// Export enriched events
+export const ENRICHED_EVENTS = EVENTS.map(enrichCardWithMetadata);
+
 
