@@ -63,6 +63,22 @@ const SwipeCard = ({ card, onSwipe, updatePreview }) => {
                 ref={cardRef}
                 whileTap={{ scale: 1.05 }}
             >
+                {/* Meeting Type Badge */}
+                {card.type && (
+                    <div className={`${styles.meetingBadge} ${card.type === 'MPC' ? styles.badgeMPC :
+                            card.type === 'FSM' ? styles.badgeFSM :
+                                card.type === 'URGENT' ? styles.badgeURGENT :
+                                    card.type === 'CHAIN' ? styles.badgeCHAIN :
+                                        styles.badgeGENERAL
+                        }`}>
+                        {card.type === 'MPC' ? "통화정책 결정회의" :
+                            card.type === 'FSM' ? "금융안정회의" :
+                                card.type === 'URGENT' ? "긴급 현안" :
+                                    card.type === 'CHAIN' ? "후속 보고" :
+                                        "일상 보고"}
+                    </div>
+                )}
+
                 <div className={styles.imageContainer}>
                     {card.image && (
                         <img

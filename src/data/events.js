@@ -22,11 +22,21 @@ const CHAR = {
   SME: { name: "중소기업 사장", img: imgSME }
 };
 
+// Event Types for Schedule Logic
+export const EVENT_TYPES = {
+  MPC: 'MPC',       // Monetary Policy Committee (Interest Rates, Inflation) - Jan, Feb, Apr, May, Jul, Aug, Oct, Nov
+  FSM: 'FSM',       // Financial Stability Meeting (Debt, Macro-prudential) - Mar, Jun, Sep, Dec
+  GENERAL: 'GENERAL', // Random events
+  URGENT: 'URGENT', // High priority overrides
+  CHAIN: 'CHAIN'    // Triggered by previous choices
+};
+
 export const EVENTS = [
   // --- ACT 1: INAUGURATION (The Call) ---
   {
     id: 'act1_call',
     act: 1,
+    type: EVENT_TYPES.MPC, // First rate decision
     character: CHAR.REPORTER.name,
     image: CHAR.REPORTER.img,
     text: "[속보] 신임 한국은행 총재 취임! '물가와의 전쟁' 선포하시겠습니까?",
@@ -38,7 +48,8 @@ export const EVENTS = [
     right: {
       text: "네, 긴축이 필요합니다.",
       diff: { stock: -10, realEstate: -5, approval: -5, liquidity: -10 },
-      narrative: "단호한 의지에 시장이 긴장합니다. 고난의 시작입니다."
+      narrative: "단호한 의지에 시장이 긴장합니다. 고난의 시작입니다.",
+      chains: [{ eventId: 'act1_tightening_protest', delay: 2 }] // Trigger protest in 2 months
     }
   },
   {
@@ -55,12 +66,14 @@ export const EVENTS = [
     right: {
       text: "시대가 변했습니다 (금리 동결)",
       diff: { stock: 5, realEstate: 5, approval: 5, liquidity: 5 },
-      narrative: "전임 총재가 혀를 찹니다. '자네 방식대로 해보게나.'"
+      narrative: "전임 총재가 혀를 찹니다. '자네 방식대로 해보게나.'",
+      chains: [{ eventId: 'act1_inflation_warning', delay: 3 }] // Trigger inflation warning later
     }
   },
   {
     id: 'act1_union_wage',
     act: 1,
+    type: EVENT_TYPES.GENERAL,
     character: CHAR.UNION.name,
     image: CHAR.UNION.img,
     text: "물가가 너무 올랐습니다! 최저임금 대폭 인상 지지해주십시오! 우리도 살아야 할 거 아닙니까!",
@@ -80,6 +93,7 @@ export const EVENTS = [
   {
     id: 'act2_shadow',
     act: 2,
+    type: EVENT_TYPES.FSM, // PF is a stability issue
     character: "강남 큰손",
     image: imgChaebol,
     text: "총재님, 우리가 아파트 좀 사들이려는데 대출 규제 좀 풀어주시죠? 뒷돈은 섭섭지 않게...",
@@ -97,6 +111,7 @@ export const EVENTS = [
   {
     id: 'act2_politician_budget',
     act: 2,
+    type: EVENT_TYPES.FSM, // Fiscal/Monetary coordination
     character: CHAR.POLITICIAN.name,
     image: CHAR.POLITICIAN.img,
     text: "총재님~ 내년 총선인데 추경 예산 좀 편성하게 국채 좀 사주시죠? 서로 돕고 살아야죠.",
@@ -114,6 +129,7 @@ export const EVENTS = [
   {
     id: 'act2_sme_crisis',
     act: 2,
+    type: EVENT_TYPES.GENERAL,
     character: CHAR.SME.name,
     image: CHAR.SME.img,
     text: "금리가 너무 높아서 이자 갚다가 다 망하게 생겼습니다! 제발 살려주십시오!",
@@ -131,6 +147,7 @@ export const EVENTS = [
   {
     id: 'act2_chicken_index',
     act: 2,
+    type: EVENT_TYPES.MPC, // Inflation target
     character: CHAR.REPORTER.name,
     image: CHAR.REPORTER.img,
     text: "[현장 연결] 치킨 한 마리에 3만원 시대! 국민들의 분노가 폭발 직전입니다! '치킨 지수'를 관리하시겠습니까?",
@@ -148,6 +165,7 @@ export const EVENTS = [
   {
     id: 'act2_birth_rate',
     act: 2,
+    type: EVENT_TYPES.FSM, // Structural issue
     character: CHAR.POLITICIAN.name,
     image: CHAR.POLITICIAN.img,
     text: "출산율 0.6명 붕괴! 국가 소멸 위기입니다. 돈을 찍어서라도 출산 지원금을 뿌려야 합니다!",
@@ -167,6 +185,7 @@ export const EVENTS = [
   {
     id: 'act3_imf',
     act: 3,
+    type: EVENT_TYPES.URGENT,
     character: CHAR.FOREIGN.name,
     image: CHAR.FOREIGN.img,
     text: "[최후의 통첩] 한국 경제의 부채가 한계입니다. 구조조정 하시겠습니까, 아니면 파산하시겠습니까?",
@@ -184,6 +203,7 @@ export const EVENTS = [
   {
     id: 'act3_medical',
     act: 3,
+    type: EVENT_TYPES.GENERAL,
     character: CHAR.UNION.name,
     image: CHAR.UNION.img,
     text: "의사들이 파업을 선언했습니다! '수가 인상' 없이는 돌아가지 않겠다고 합니다. 건보 재정이 파탄 날 텐데요?",
@@ -284,6 +304,7 @@ export const EVENTS = [
   {
     id: 'real_estate_pf',
     act: 2,
+    type: EVENT_TYPES.FSM,
     character: CHAR.CHAEBOL.name,
     image: CHAR.CHAEBOL.img,
     text: "부동산 PF 사태가 터졌습니다! 10조 규모 부실채권... 금융기관들이 살려달라고 아우성입니다!",
@@ -369,6 +390,7 @@ export const EVENTS = [
   {
     id: 'electricity_bill',
     act: 2,
+    type: EVENT_TYPES.GENERAL,
     character: CHAR.PRESIDENT.name,
     image: CHAR.PRESIDENT.img,
     text: "전기요금 적자가 20조입니다! 한전이 망하기 직전인데, 요금 인상하시겠습니까?",
@@ -386,6 +408,7 @@ export const EVENTS = [
   {
     id: 'pension_crisis',
     act: 3,
+    type: EVENT_TYPES.URGENT,
     character: CHAR.FOREIGN.name,
     image: CHAR.FOREIGN.img,
     text: "국민연금 고갈 D-3년! 연금 개혁 안 하면 2040년에는 한 푼도 못 받습니다!",
@@ -529,6 +552,41 @@ export const EVENTS = [
       text: "원칙 고수 (현역 입대)",
       diff: { stock: -5, realEstate: 0, approval: 10, liquidity: 0 },
       narrative: "공정하지만, K-팝 산업이 타격을 받았습니다."
+    }
+  },
+  // --- CHAINED EVENTS (Triggered by choices) ---
+  {
+    id: 'act1_tightening_protest',
+    type: EVENT_TYPES.CHAIN,
+    character: CHAR.SME.name,
+    image: CHAR.SME.img,
+    text: "총재님! 지난번 금리 인상 때문에 이자가 두 배가 됐습니다! 우리 다 죽으라는 겁니까?",
+    left: {
+      text: "고통 분담 부탁드립니다",
+      diff: { stock: -5, realEstate: -5, approval: -10, liquidity: -5 },
+      narrative: "시위대가 계란을 던집니다. 하지만 물가는 잡히고 있습니다."
+    },
+    right: {
+      text: "지원책 마련 (완화)",
+      diff: { stock: 5, realEstate: 5, approval: 10, liquidity: 5 },
+      narrative: "긴축 기조가 흔들립니다. 시장이 혼란스러워합니다."
+    }
+  },
+  {
+    id: 'act1_inflation_warning',
+    type: EVENT_TYPES.CHAIN,
+    character: CHAR.FOREIGN.name,
+    image: CHAR.FOREIGN.img,
+    text: "금리 동결 여파로 기대인플레이션이 4%를 넘었습니다. 원화 가치가 폭락 중입니다.",
+    left: {
+      text: "빅스텝 단행 (0.5%p↑)",
+      diff: { stock: -20, realEstate: -10, approval: -15, liquidity: -20 },
+      narrative: "늦었지만 불을 끕니다. 충격 요법에 시장이 발작합니다."
+    },
+    right: {
+      text: "점진적 인상",
+      diff: { stock: -5, realEstate: 5, approval: -5, liquidity: -5 },
+      narrative: "미지근한 대응에 자본 유출이 가속화됩니다."
     }
   }
 ];

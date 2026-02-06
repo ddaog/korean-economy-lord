@@ -109,3 +109,45 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     /* Text shadow for pop */
 }
+
+.meetingBadge {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    white-space: nowrap;
+    border: 2px solid white;
+}
+
+.badgeMPC {
+    background-color: #3b82f6;
+}
+
+/* Blue */
+.badgeFSM {
+    background-color: #10b981;
+}
+
+/* Green */
+.badgeURGENT {
+    background-color: #ef4444;
+}
+
+/* Red */
+.badgeCHAIN {
+    background-color: #f59e0b;
+}
+
+/* Amber */
+.badgeGENERAL {
+    background-color: #9ca3af;
+}
+
+/* Gray */
